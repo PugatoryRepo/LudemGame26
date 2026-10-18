@@ -9,7 +9,6 @@ namespace Movement
     [RequireComponent(typeof(BoxCollider2D))]
     public class PlayerMovement : MonoBehaviour, IEntityMovement
     {
-
         [Space(10)]
         [Header("Movement for player")]
         [SerializeField] private Rigidbody2D rB;
