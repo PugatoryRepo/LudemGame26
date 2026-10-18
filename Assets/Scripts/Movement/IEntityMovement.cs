@@ -1,6 +1,9 @@
 
+using UnityEngine;
+
 namespace Movement
 {
+    
     public interface IEntityMovement
     {
         public abstract void Move();

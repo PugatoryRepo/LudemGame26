@@ -1,13 +1,32 @@
 using UnityEngine;
+using System.Collections.Generic;
+using Movement;
 
 namespace Combat
 {
     public class Mines : MonoBehaviour
     {
+
+        protected struct Point
+        {
+            
+            public readonly int X;
+            public readonly int Y;
+
+            public Point(float xCoord, float yCoord)
+            {
+                X=  (int) Mathf.Round(xCoord);
+                Y= (int) Mathf.Round(yCoord);
+            }
+            
+        }
+        
         
         [SerializeField] private Texture2D texture;
 
         private readonly string texturePath = "Assets/map_texture_combined.png";
+
+        private List<Color> greenPixels;
 
         void Awake()
         {
@@ -16,18 +35,52 @@ namespace Combat
                 texture = Resources.Load<Texture2D>(texturePath);
             }
 
-            var points = texture.GetPixelBilinear();
-
-
-
+            greenPixels = new List<Color>();
+            getGreenColorsOnMap();
         }
+
+        private void getGreenColorsOnMap()
+        {
+            Color[] colors = texture.GetPixels();
+
+            for (int i = 0; i < colors.Length; i++)
+            {
+                var color = colors[i];
+
+                if (color.g > 0f)
+                {
+                    greenPixels.Add(color);
+                }
+                
+            }
+        }
+
+        //Need Player to subscribe.
+        void OnEnable()
+        {
+            PlayerMovement.PlayerOnMove += isPlayerOnMine;
+        }
+
+        void OnDisable()
+        {
+            PlayerMovement.PlayerOnMove -= isPlayerOnMine;
+        }
+
         
         
-        
-        
-        
-        
-        
+        private bool isPlayerOnMine(Vector2 playerPos)
+        {
+            Point point = new Point(playerPos.x, playerPos.y);
+            
+            var pointOnMap = texture.GetPixel( point.X, point.Y);
+
+            if (greenPixels.Contains(pointOnMap))
+            {
+                return true;
+            }
+            
+            return false;
+        }
         
         
     }

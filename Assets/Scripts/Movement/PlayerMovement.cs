@@ -1,6 +1,7 @@
 using UnityEngine;
 using ScriptableObjects;
 using UnityEngine.InputSystem;
+using System;
 
 
 namespace Movement
@@ -9,13 +10,31 @@ namespace Movement
     [RequireComponent(typeof(BoxCollider2D))]
     public class PlayerMovement : MonoBehaviour, IEntityMovement
     {
+        
+        public static event Func<Vector2, bool> PlayerOnMove;
+        
+        /// <summary>
+        /// Property used when modifying the player's position and calling the event if
+        /// player is on a mine.
+        /// </summary>
+        /// <remarks> Can also get player's current position; this part of property is public.</remarks>
+        public Vector2 Playerposition
+        {
+            get => currPosition;
+            private set
+            {
+                currPosition = value;
+                PlayerOnMove?.Invoke(currPosition);
+            }
+        }
 
         [Space(10)]
         [Header("Movement for player")]
         [SerializeField] private Rigidbody2D rB;
         
         [SerializeField] private PlayerData playerData;
-
+        
+        private Vector2 currPosition;
         
         private float speed;
         private float rotSpeed;
@@ -47,7 +66,7 @@ namespace Movement
         //Get non-physics related stuff (e.g. player's input).
         void Update()
         {
-            dir=InputSystem.actions["Move"].ReadValue<Vector2>();
+            dir = InputSystem.actions["Move"].ReadValue<Vector2>();
             mousePos = Mouse.current.position.ReadValue();
         }
 
@@ -69,8 +88,7 @@ namespace Movement
             }
             
             rB.position += dir * (speed * Time.deltaTime);
-            
-            
+            Playerposition = rB.position;
         }
         
         
