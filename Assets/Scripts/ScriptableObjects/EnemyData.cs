@@ -17,6 +17,8 @@ namespace ScriptableObjects
 
         public Vector2[] WayPoints;
 
+        public Vector2[] PatrolPoints;
+
     }
 
 }

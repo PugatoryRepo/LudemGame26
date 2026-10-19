@@ -12,5 +12,11 @@ namespace ScriptableObjects
         [Space(10)]
         public float RotSpeed;
 
+        [Space(10)] 
+        public float TimerTorpedo;
+
+        [Space(10)]
+        [Range(25,100)]
+        public float TorpedoDmg;
     }
 }

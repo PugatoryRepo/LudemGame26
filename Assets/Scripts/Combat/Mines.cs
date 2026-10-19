@@ -1,5 +1,5 @@
 using UnityEngine;
-using System.Collections.Generic;
+using ScriptableObjects;
 using Movement;
 using ManagerScripts;
 
@@ -8,87 +8,24 @@ namespace Combat
     public class Mines : MonoBehaviour
     {
 
-        protected struct Point
-        {
-            
-            public readonly int X;
-            public readonly int Y;
+        [Header("Mines")] [Space(10)] 
+        [SerializeField] private EnemyData enemyData;
 
-            public Point(float xCoord, float yCoord)
+        
+
+        void OnCollisionEnter2D(Collision2D collision)
+        {
+            var layerMask = collision.gameObject.layer;
+
+            if (layerMask == 7)
             {
-                X=  (int) Mathf.Round(xCoord);
-                Y= (int) Mathf.Round(yCoord);
+                print("I got dead banged."); // Reference to 1994 The Crow.
             }
             
         }
         
-        
-        [SerializeField] private Texture2D texture;
 
-        private readonly string texturePath = "Assets/map_texture_combined.png";
 
-        private List<Color> greenPixels;
-
-        private Point point;
-
-        void Awake()
-        {
-            if (texture == null)
-            {
-                texture = Resources.Load<Texture2D>(texturePath);
-            }
-
-            greenPixels = new List<Color>();
-            getGreenColorsOnMap();
-        }
-
-        private void getGreenColorsOnMap()
-        {
-            Color[] colors = texture.GetPixels();
-
-            for (int i = 0; i < colors.Length; i++)
-            {
-                var color = colors[i];
-
-                if (color.g > 0f)
-                {
-                    greenPixels.Add(color);
-                }
-                
-            }
-            
-            print(texture.width+", "+texture.height);
-            print(greenPixels.Count);
-        }
-        
-        //Need Player to subscribe.
-        void OnEnable()
-        {
-            PlayerMovement.PlayerOnMove += isPlayerOnMine;
-        }
-
-        void OnDisable()
-        {
-            PlayerMovement.PlayerOnMove -= isPlayerOnMine;
-        }
-
-        
-        
-        private void isPlayerOnMine(Vector2 playerPos)
-        {
-            point = new Point(playerPos.x, playerPos.y);
-            
-            var pointOnMap = texture.GetPixel( point.X, point.Y);
-
-           // print(pointOnMap+": "+point.X+", "+point.Y);
-            if (greenPixels.Contains(pointOnMap))
-            {
-                GameManager.States deadState = GameManager.States.Dead;
-                GameManager.Instance.SetCurrState(deadState);
-            }
-        }
-        
-        
     }
 
 }

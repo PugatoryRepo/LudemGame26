@@ -10,13 +10,32 @@ namespace ManagerScripts
             Alive,
             Dead,
             WonGame
-
         }
-
-
+        
         public static GameManager Instance { get; private set; }
 
+        public int MaxEnemyCargo;
+
+        public int CurrNumEnemyCargo
+        { 
+            get => currNumEnemyCargo;
+            set
+            {
+                currNumEnemyCargo--;
+
+                if (currNumEnemyCargo <= 0)
+                {
+                    SetCurrState(States.WonGame);
+                }
+                
+            }
+        }
+
+        
+        
         private States currState;
+
+        private int currNumEnemyCargo; 
         
 
         void Awake()
@@ -33,6 +52,11 @@ namespace ManagerScripts
 
         }
 
+        void Start()
+        {
+            CurrNumEnemyCargo = MaxEnemyCargo;
+        }
+
 
         protected override void Statemachine()
         {
@@ -42,7 +66,6 @@ namespace ManagerScripts
                     print("Game Over");
                     break;
                 default:
-                    print("Player's alive.");
                     break;
             }
         }
@@ -52,6 +75,7 @@ namespace ManagerScripts
         public void SetCurrState(States state)
         {
             currState = state;
+            Statemachine();
             
         } 
     }
