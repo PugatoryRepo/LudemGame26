@@ -1,0 +1,22 @@
+using UnityEngine;
+
+
+namespace ScriptableObjects
+{
+    [CreateAssetMenu(fileName = "EnemyData", menuName = "Scriptable Objects/EnemyData")]
+    public class EnemyData : ScriptableObject
+    {
+
+        public float Speed;
+        public float RotSpeed;
+        public float Health;
+        
+        public Vector2[] EvacPoints;
+
+        public float Damage;
+
+        public Vector2[] WayPoints;
+
+    }
+
+}
