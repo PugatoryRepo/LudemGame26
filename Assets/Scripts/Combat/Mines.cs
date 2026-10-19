@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using Movement;
+using ManagerScripts;
 
 namespace Combat
 {
@@ -28,6 +29,8 @@ namespace Combat
 
         private List<Color> greenPixels;
 
+        private Point point;
+
         void Awake()
         {
             if (texture == null)
@@ -53,8 +56,11 @@ namespace Combat
                 }
                 
             }
+            
+            print(texture.width+", "+texture.height);
+            print(greenPixels.Count);
         }
-
+        
         //Need Player to subscribe.
         void OnEnable()
         {
@@ -68,18 +74,18 @@ namespace Combat
 
         
         
-        private bool isPlayerOnMine(Vector2 playerPos)
+        private void isPlayerOnMine(Vector2 playerPos)
         {
-            Point point = new Point(playerPos.x, playerPos.y);
+            point = new Point(playerPos.x, playerPos.y);
             
             var pointOnMap = texture.GetPixel( point.X, point.Y);
 
+           // print(pointOnMap+": "+point.X+", "+point.Y);
             if (greenPixels.Contains(pointOnMap))
             {
-                return true;
+                GameManager.States deadState = GameManager.States.Dead;
+                GameManager.Instance.SetCurrState(deadState);
             }
-            
-            return false;
         }
         
         

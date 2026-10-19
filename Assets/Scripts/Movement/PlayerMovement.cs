@@ -11,7 +11,7 @@ namespace Movement
     public class PlayerMovement : MonoBehaviour, IEntityMovement
     {
         
-        public static event Func<Vector2, bool> PlayerOnMove;
+        public static event Action<Vector2> PlayerOnMove;
         
         /// <summary>
         /// Property used when modifying the player's position and calling the event if
@@ -104,7 +104,7 @@ namespace Movement
 
             mousePos *= rotSpeed * Time.fixedDeltaTime;
             
-            print(mousePos);
+            //print(mousePos);
             
             transform.up += mousePos.normalized;
 
