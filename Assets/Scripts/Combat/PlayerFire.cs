@@ -15,15 +15,17 @@ namespace Combat
         
         [SerializeField] private GameObject torpedoObj;
         
-        private Queue<GameObject> fireQueue;
+        private List<GameObject> torpedoPool;
 
         private const int MAXTORPEDOS = 4;
 
         private readonly float currPlayerOffset = 1f;
 
-        private Vector2 currPlayerPos;
+        private Vector2 torpedoPosition;
 
-       
+        private Quaternion torpedoRotation;
+
+        private int index;
 
         void Awake()
         {
@@ -32,11 +34,13 @@ namespace Combat
                 Debug.LogWarning("PlayerFire: No torpedo object found.");
             }
             
-            fireQueue = new Queue<GameObject>();
+            torpedoPool = new List<GameObject>();
 
             for (int i = 0; i < MAXTORPEDOS; i++)
             {
-                fireQueue.Enqueue(torpedoObj);
+                var obj=Instantiate(torpedoObj, transform.position, transform.rotation);
+                torpedoObj.SetActive(false);
+                torpedoPool.Add(obj);
             }
         }
 
@@ -51,41 +55,49 @@ namespace Combat
             PlayerMovement.PlayerOnMove -= updatePlayerPosition;
         }
 
-        private void updatePlayerPosition(Vector2 input)
+        private void updatePlayerPosition(Vector2 input, Quaternion inputRotation)
         {
-            currPlayerPos = input;
+            torpedoPosition = input;
 
-            currPlayerPos.x += currPlayerOffset;
+            torpedoPosition.x += currPlayerOffset;
+            torpedoRotation = inputRotation;
         }
 
         void Update()
         {
             if (Keyboard.current.spaceKey.wasPressedThisFrame)
             {
-                shootTropedos();
+               var torpedo = getTorpedo();
+               fireTorpedo(torpedo);
             }
         }
 
-        private void shootTropedos()
+        private GameObject getTorpedo()
         {
-
-            if (fireQueue.Count > 0)
+            if (index >= MAXTORPEDOS)
             {
-                Instantiate(fireQueue.Peek(), currPlayerPos, transform.rotation);
-                fireQueue.Dequeue();
+                index = 0;
             }
-            else
-            {
-                StopFiring?.Invoke();
+            print(index);
+            var torpedo = torpedoPool[index];
+            index++;
 
-                for (int i = 0; i < MAXTORPEDOS; i++)
-                {
-                    fireQueue.Enqueue(torpedoObj);
-                }
-                
-            }
+            return torpedo;
         }
-        
+
+
+        private void fireTorpedo(GameObject torpedo)
+        {
+            torpedo.transform.rotation = torpedoRotation;
+            torpedo.transform.position = torpedoPosition;
+            
+            torpedo.SetActive(true);
+        }
+
+        private Awaitable await()
+        {
+            return Awaitable.WaitForSecondsAsync(10f);
+        }
 
     }
 

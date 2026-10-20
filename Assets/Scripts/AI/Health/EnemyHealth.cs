@@ -36,7 +36,7 @@ namespace AI.Health
         public void DamageShip(float damage)
         {
             currHealth -= damage;
-
+            
             if (currHealth <= 0)
             {
                 enabled=false;

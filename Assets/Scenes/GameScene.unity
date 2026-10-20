@@ -772,7 +772,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 119701d1813a213478b27586fbb39788, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Combat.PlayerFire
-  torpedoObj: {fileID: 4485657078233917079, guid: 8a274fd3a330d234fa50685d9267d55a, type: 3}
+  torpedoObj: {fileID: 1931734787692555421, guid: 8a274fd3a330d234fa50685d9267d55a, type: 3}
 --- !u!1001 &2073062461732942362
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -11,7 +11,7 @@ namespace Movement
     public class PlayerMovement : MonoBehaviour, IEntityMovement
     {
         
-        public static event Action<Vector2> PlayerOnMove;
+        public static event Action<Vector2, Quaternion> PlayerOnMove;
         
         /// <summary>
         /// Property used when modifying the player's position and calling the event if
@@ -24,7 +24,7 @@ namespace Movement
             private set
             {
                 currPosition = value;
-                PlayerOnMove?.Invoke(currPosition);
+                PlayerOnMove?.Invoke(currPosition, this.transform.rotation);
             }
         }
 

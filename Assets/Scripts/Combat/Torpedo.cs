@@ -1,5 +1,3 @@
-using System;
-using System.Numerics;
 using AI.Health;
 using Movement;
 using UnityEngine;
@@ -20,10 +18,10 @@ namespace Combat
         [SerializeField] private LayerMask layerMask;
 
         private float damage;
+
+        private const float MAXTIMER = 3f;
+        private float timer;
         
-        private Rigidbody2D rB;
-        
-        private Vector3 positionToFire;
 
         void Awake()
         {
@@ -35,36 +33,25 @@ namespace Combat
             {
                 damage = playerData.TorpedoDmg;
             }
-            
-            rB ??= GetComponent<Rigidbody2D>();
         
         }
 
-
-      
-
+        
         void FixedUpdate()
         {
             transform.position += transform.up *( Time.fixedDeltaTime *playerData.TorpedoSpeed);
-
         }
 
-
-        private void disableTorpedos()
-        {
-            enabled = false;
-        }
-       
-
+        
         void OnCollisionEnter2D(Collision2D other)
         {
-            
             if (other.gameObject.layer == 8 || other.gameObject.layer == 9)
             {
                 other.gameObject.GetComponent<EnemyHealth>().DamageShip(damage);
-                enabled = false;
             }
             
+            
+            gameObject.SetActive(false);
         }
     }
 }
