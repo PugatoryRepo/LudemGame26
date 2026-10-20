@@ -73,6 +73,9 @@ namespace Movement
 
         void FixedUpdate()
         {
+            
+            Playerposition = transform.position;
+            
             Move();
             Rotate();
         }
@@ -88,7 +91,6 @@ namespace Movement
             }
             
             rB.position += dir * (speed * Time.deltaTime);
-            Playerposition = rB.position;
         }
         
         

@@ -1,6 +1,10 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Movement;
+
 
 namespace Combat
 {
@@ -10,23 +14,16 @@ namespace Combat
         public static Action StopFiring;
         
         [SerializeField] private GameObject torpedoObj;
+        
+        private Queue<GameObject> fireQueue;
 
-        private readonly int limitFireMax = 4;
+        private const int MAXTORPEDOS = 4;
 
-        private int limitFireProperty
-        {
-            get => limitFire;
-            set
-            {
-                limitFire=value;
-                if (limitFire > limitFireMax)
-                {
-                    StopFiring?.Invoke();
-                    limitFire = 0;
-                }
-            }
-        }
-        private int limitFire;
+        private readonly float currPlayerOffset = 1f;
+
+        private Vector2 currPlayerPos;
+
+       
 
         void Awake()
         {
@@ -34,28 +31,61 @@ namespace Combat
             {
                 Debug.LogWarning("PlayerFire: No torpedo object found.");
             }
-
-            limitFireProperty = 0;
             
+            fireQueue = new Queue<GameObject>();
+
+            for (int i = 0; i < MAXTORPEDOS; i++)
+            {
+                fireQueue.Enqueue(torpedoObj);
+            }
+        }
+
+
+        void OnEnable()
+        {
+            PlayerMovement.PlayerOnMove += updatePlayerPosition;
+        }
+
+        void OnDisable()
+        {
+            PlayerMovement.PlayerOnMove -= updatePlayerPosition;
+        }
+
+        private void updatePlayerPosition(Vector2 input)
+        {
+            currPlayerPos = input;
+
+            currPlayerPos.x += currPlayerOffset;
         }
 
         void Update()
         {
             if (Keyboard.current.spaceKey.wasPressedThisFrame)
             {
-                Instantiate(torpedoObj, transform.position, transform.rotation);
-               
+                shootTropedos();
             }
-            else if (Keyboard.current.spaceKey.wasReleasedThisFrame)
-            {
-                limitFireProperty++;
-            }
-            
-         
-            
-            
         }
 
+        private void shootTropedos()
+        {
+
+            if (fireQueue.Count > 0)
+            {
+                Instantiate(fireQueue.Peek(), currPlayerPos, transform.rotation);
+                fireQueue.Dequeue();
+            }
+            else
+            {
+                StopFiring?.Invoke();
+
+                for (int i = 0; i < MAXTORPEDOS; i++)
+                {
+                    fireQueue.Enqueue(torpedoObj);
+                }
+                
+            }
+        }
+        
 
     }
 

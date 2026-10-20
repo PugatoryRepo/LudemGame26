@@ -108,6 +108,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Combat.Torpedo
   playerData: {fileID: 11400000, guid: 746c1c03b8c8d2e49b2520a720ba42ea, type: 2}
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 1814
 --- !u!50 &5750951985984746122
 Rigidbody2D:
   serializedVersion: 5

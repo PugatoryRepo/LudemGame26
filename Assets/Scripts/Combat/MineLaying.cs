@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 namespace Combat
 {
@@ -6,7 +7,8 @@ namespace Combat
     {
     
         [SerializeField] private GameObject mineObj;
-        
+
+        private Queue<GameObject> mineQueue;
         
         private readonly int limitFireMax = 20;
 
@@ -34,6 +36,7 @@ namespace Combat
         void Start()
         {
             nextFireTime = Time.time+5f;
+            mineQueue = new Queue<GameObject>();
         }
 
         /// <summary>
@@ -42,11 +45,9 @@ namespace Combat
         /// <remarks> Based on video: https://www.youtube.com/shorts/Cpg3B0gVWB8 </remarks>
         void Update()
         {
-
-            if (Time.time > nextFireTime)
+            if (mineQueue.Count == 0)
             {
                 limitFireProperty++;
-                nextFireTime = Time.time + 5f;
             }
             
         }

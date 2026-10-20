@@ -1,9 +1,11 @@
 using System;
 using System.Numerics;
 using AI.Health;
+using Movement;
 using UnityEngine;
 using ScriptableObjects;
 using Vector2 = UnityEngine.Vector2;
+using Vector3 = UnityEngine.Vector3;
 
 namespace Combat
 {
@@ -13,14 +15,15 @@ namespace Combat
         [Header("Torpedo's Info")]
         [Space(10)]
         [SerializeField] private PlayerData playerData;
+        
+        [Space(10)]
+        [SerializeField] private LayerMask layerMask;
 
         private float damage;
         
         private Rigidbody2D rB;
-
-        private Vector2 currPos;
         
-        
+        private Vector3 positionToFire;
 
         void Awake()
         {
@@ -37,48 +40,30 @@ namespace Combat
         
         }
 
-        void Start()
-        {
-            //rB.position = transform.position;
-        }
 
-        private void OnEnable()
-        {
-            PlayerFire.StopFiring += onDestroy;
-        }
-
-        void OnDisable()
-        {
-            PlayerFire.StopFiring -= onDestroy;
-        }
+      
 
         void FixedUpdate()
         {
-            
-            rB.position += Vector2.one;
-           
+            transform.position += transform.up *( Time.fixedDeltaTime *playerData.TorpedoSpeed);
+
         }
 
 
-        private void onDestroy()
+        private void disableTorpedos()
         {
-            Destroy(this.gameObject);
+            enabled = false;
         }
        
 
-        private void OnCollisionEnter2D(Collision2D other)
+        void OnCollisionEnter2D(Collision2D other)
         {
-            var layerMask = other.gameObject.layer;
-
-            if (layerMask == 8 || layerMask == 9) // Enemy cargo ship
+            
+            if (other.gameObject.layer == 8 || other.gameObject.layer == 9)
             {
                 other.gameObject.GetComponent<EnemyHealth>().DamageShip(damage);
+                enabled = false;
             }
-            else
-            {
-                Destroy(this.gameObject);
-            }
-            
             
         }
     }
