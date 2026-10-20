@@ -8,6 +8,8 @@ namespace ScriptableObjects
     {
 
         public float Speed;
+        [Range(1, 3)]
+        public float SubHunterSpeed;
         public float RotSpeed;
         public float Health;
         

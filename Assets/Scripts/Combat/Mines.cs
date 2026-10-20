@@ -20,6 +20,7 @@ namespace Combat
             if (layerMask == 7)
             {
                 print("I got dead banged."); // Reference to 1994 The Crow.
+                Destroy(collision.gameObject);
             }
             
         }

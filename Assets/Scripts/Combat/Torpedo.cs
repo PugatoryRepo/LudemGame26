@@ -1,7 +1,9 @@
 using System;
+using System.Numerics;
 using AI.Health;
 using UnityEngine;
 using ScriptableObjects;
+using Vector2 = UnityEngine.Vector2;
 
 namespace Combat
 {
@@ -13,7 +15,12 @@ namespace Combat
         [SerializeField] private PlayerData playerData;
 
         private float damage;
+        
+        private Rigidbody2D rB;
 
+        private Vector2 currPos;
+        
+        
 
         void Awake()
         {
@@ -25,7 +32,39 @@ namespace Combat
             {
                 damage = playerData.TorpedoDmg;
             }
+            
+            rB ??= GetComponent<Rigidbody2D>();
+        
         }
+
+        void Start()
+        {
+            //rB.position = transform.position;
+        }
+
+        private void OnEnable()
+        {
+            PlayerFire.StopFiring += onDestroy;
+        }
+
+        void OnDisable()
+        {
+            PlayerFire.StopFiring -= onDestroy;
+        }
+
+        void FixedUpdate()
+        {
+            
+            rB.position += Vector2.one;
+           
+        }
+
+
+        private void onDestroy()
+        {
+            Destroy(this.gameObject);
+        }
+       
 
         private void OnCollisionEnter2D(Collision2D other)
         {
@@ -37,7 +76,7 @@ namespace Combat
             }
             else
             {
-              enabled=false;
+                Destroy(this.gameObject);
             }
             
             
