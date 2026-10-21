@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 914342854581633922}
   - component: {fileID: 5699850471780704127}
   - component: {fileID: 2176537155259140904}
+  - component: {fileID: -7247969392984094177}
   m_Layer: 9
   m_Name: SubHunter
   m_TagString: Untagged
@@ -189,9 +190,24 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1049847868057640076}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0b2e4116bb9177945bb8c388bc3444ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Combat.MineLaying
+  enemyData: {fileID: 0}
   mineObj: {fileID: 2250972595751445845, guid: 7ef59d76aaf12ae439328cb9b7cb0714, type: 3}
+--- !u!114 &-7247969392984094177
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1049847868057640076}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a7ff96053e2288c4bb3628b51ffc0324, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AI.Movement.SubHunterMovement
+  enemyData: {fileID: 11400000, guid: 8c9a188238c910646997ef8aadefcdb6, type: 2}
+  rB: {fileID: 4727261109291251834}

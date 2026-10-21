@@ -17,10 +17,14 @@ namespace Combat
         {
             var layerMask = collision.gameObject.layer;
 
+            print(layerMask);
             if (layerMask == 7)
             {
                 print("I got dead banged."); // Reference to 1994 The Crow.
                 Destroy(collision.gameObject);
+                
+                gameObject.SetActive(false);
+                GameManager.Instance.SetCurrState(GameManager.States.Alive);
             }
             
         }

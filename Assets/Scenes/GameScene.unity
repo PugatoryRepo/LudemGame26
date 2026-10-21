@@ -781,6 +781,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3840844026671227976, guid: 3cc45480e959cca49bbe6740224efde0, type: 3}
+      propertyPath: m_ExcludeLayers.m_Bits
+      value: 2176
+      objectReference: {fileID: 0}
+    - target: {fileID: 3840844026671227976, guid: 3cc45480e959cca49bbe6740224efde0, type: 3}
+      propertyPath: m_IncludeLayers.m_Bits
+      value: 128
+      objectReference: {fileID: 0}
     - target: {fileID: 4769809110292739939, guid: 3cc45480e959cca49bbe6740224efde0, type: 3}
       propertyPath: m_LocalPosition.x
       value: -1.78
@@ -841,6 +849,22 @@ PrefabInstance:
     - target: {fileID: 1049847868057640076, guid: 4b0f7dd7bfa797f49baff4e0ae2be631, type: 3}
       propertyPath: m_Name
       value: SubHunter
+      objectReference: {fileID: 0}
+    - target: {fileID: 2176537155259140904, guid: 4b0f7dd7bfa797f49baff4e0ae2be631, type: 3}
+      propertyPath: enemyData
+      value: 
+      objectReference: {fileID: 11400000, guid: 8c9a188238c910646997ef8aadefcdb6, type: 2}
+    - target: {fileID: 2176537155259140904, guid: 4b0f7dd7bfa797f49baff4e0ae2be631, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4727261109291251834, guid: 4b0f7dd7bfa797f49baff4e0ae2be631, type: 3}
+      propertyPath: m_GravityScale
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4727261109291251834, guid: 4b0f7dd7bfa797f49baff4e0ae2be631, type: 3}
+      propertyPath: m_ExcludeLayers.m_Bits
+      value: 896
       objectReference: {fileID: 0}
     - target: {fileID: 7728030447359672479, guid: 4b0f7dd7bfa797f49baff4e0ae2be631, type: 3}
       propertyPath: m_LocalPosition.x

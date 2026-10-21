@@ -13,14 +13,17 @@ MonoBehaviour:
   m_Name: EnemyData
   m_EditorClassIdentifier: Assembly-CSharp::ScriptableObjects.EnemyData
   Speed: 3
-  SubHunterSpeed: 0
+  SubHunterSpeed: 1
   RotSpeed: 5
   Health: 100
   EvacPoints:
   - {x: -3, y: -3}
-  Damage: 100
   WayPoints:
   - {x: 1, y: 1}
+  - {x: 1, y: 2}
   PatrolPoints:
   - {x: 1, y: 1}
   - {x: -1, y: -1}
+  MineMaxLimit: 1
+  MineXPosOffset: 1.49
+  Damage: 100

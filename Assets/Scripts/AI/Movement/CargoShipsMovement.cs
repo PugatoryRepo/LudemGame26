@@ -2,10 +2,11 @@ using System;
 using UnityEngine;
 using ScriptableObjects;
 using Random = System.Random;
+using Movement;
 
 namespace AI.Movement
 {
-    public class CargoShipsMovement : MonoBehaviour
+    public class CargoShipsMovement : MonoBehaviour, IEntityMovement
     {
         
         
@@ -66,15 +67,23 @@ namespace AI.Movement
 
         void FixedUpdate()
         {
-            movement();
+            Move();
         }
 
-        protected virtual void movement()
+        public void Move()
         {
             var des=Vector2.MoveTowards(rB.position, evacPoint, 
                 speed * Time.deltaTime);
             rB.MovePosition(des);
         }
+
+        public void Rotate()
+        {
+        }
+
+        public float GetSpeed() => speed;
         
+        public float GetRotSpeed() => rotSpeed;
+
     }
 }
