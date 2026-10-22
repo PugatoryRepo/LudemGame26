@@ -90,7 +90,7 @@ namespace Movement
                 return;
             }
             
-            rB.position += dir * (speed * Time.deltaTime);
+            rB.position += (-dir) * (speed * Time.deltaTime);
         }
         
         
