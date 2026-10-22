@@ -1,0 +1,22 @@
+:root {
+    opacity: 1;
+    position: relative;
+    justify-content: flex-start;
+    align-items: stretch;
+    align-self: auto;
+    top: auto;
+    visibility: visible;
+    overflow: visible;
+    translate: 0 121px;
+}
+
+.title {
+}
+
+.Retry {
+}
+
+.Quit {
+}
+
+

@@ -1,3 +1,5 @@
+using System;
+using AI.Health;
 using UnityEngine;
 
 
@@ -5,6 +7,7 @@ namespace ManagerScripts
 {
     public class GameManager : Manager
     {
+        
         public enum States
         {
             Alive,
@@ -12,30 +15,33 @@ namespace ManagerScripts
             WonGame
         }
         
+        public static Action OnGameWon;
+        
         public static GameManager Instance { get; private set; }
 
-        public int MaxEnemyCargo;
+        [NonSerialized] public int MaxEnemyCargo;
 
-        public int CurrNumEnemyCargo
+        private int currCargoProperty
         { 
-            get => currNumEnemyCargo;
+            get => currCargoNum;
             set
             {
-                currNumEnemyCargo--;
+                currCargoNum=value;
 
-                if (currNumEnemyCargo <= 0)
+                if (currCargoNum <= 0)
                 {
-                    SetCurrState(States.WonGame);
+                    print(currCargoNum);
+                    setStateToWon();
                 }
                 
             }
         }
-
         
+        [SerializeField] private GameObject endGameUIDoc;
         
         private States currState;
 
-        private int currNumEnemyCargo; 
+        private int currCargoNum; 
         
 
         void Awake()
@@ -50,13 +56,33 @@ namespace ManagerScripts
                 Destroy(this);
             }
 
+            if (endGameUIDoc == null)
+            {
+                Debug.LogWarning("UI document is null.");
+            }
+            else
+            {
+                endGameUIDoc.SetActive(false);
+            }
+
         }
 
-        void Start()
+        void OnEnable()
         {
-            CurrNumEnemyCargo = MaxEnemyCargo;
+            EnemyHealth.OnCargoShipCount += addCargoShip;
+            EnemyHealth.OnCargoShipDeath += decCargoShip;
         }
 
+        void OnDisable()
+        {
+            EnemyHealth.OnCargoShipCount -= addCargoShip;
+            EnemyHealth.OnCargoShipDeath -= decCargoShip;
+        }
+        
+        private void addCargoShip() => currCargoProperty++;
+        
+        private void decCargoShip() => currCargoProperty--;
+        
 
         protected override void Statemachine()
         {
@@ -64,11 +90,22 @@ namespace ManagerScripts
             {
                 case States.Dead:
                     print("Game Over");
+                    
+                    endGameUIDoc.SetActive(true);
+                    
                     break;
-                default:
-                    break;
+               case States.WonGame:
+                    print("Game Won");
+                    
+                   endGameUIDoc.SetActive(true);
+                    
+                    OnGameWon?.Invoke();
+                    
+                   break;
+                
             }
         }
+
 
         public States GetCurrState() => currState;
 
@@ -76,8 +113,14 @@ namespace ManagerScripts
         {
             currState = state;
             Statemachine();
-            
-        } 
+        }
+
+
+        private void setStateToWon()
+        {
+            currState=States.WonGame;
+            Statemachine();
+        }
     }
 
 

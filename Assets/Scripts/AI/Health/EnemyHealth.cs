@@ -1,3 +1,4 @@
+using System;
 using ManagerScripts;
 using UnityEngine;
 using ScriptableObjects;
@@ -7,6 +8,10 @@ namespace AI.Health
 {
     public class EnemyHealth : MonoBehaviour
     {
+        
+        public static Action OnCargoShipCount;
+        public static Action OnCargoShipDeath;
+        
         [Header("Enemy's Scriptable object")] [Space(10)]
         [SerializeField] private EnemyData enemyData;
 
@@ -29,7 +34,7 @@ namespace AI.Health
             
             layerMaskVal = gameObject.layer;
             
-            
+            OnCargoShipCount?.Invoke();
         }
 
 
@@ -43,7 +48,7 @@ namespace AI.Health
 
                 if (layerMaskVal == 8)
                 {
-                    GameManager.Instance.CurrNumEnemyCargo--;
+                    OnCargoShipDeath?.Invoke();
                 }
             }
         }

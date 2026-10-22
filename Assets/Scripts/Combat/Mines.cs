@@ -24,7 +24,7 @@ namespace Combat
                 Destroy(collision.gameObject);
                 
                 gameObject.SetActive(false);
-                GameManager.Instance.SetCurrState(GameManager.States.Alive);
+                GameManager.Instance.SetCurrState(GameManager.States.Dead);
             }
             
         }

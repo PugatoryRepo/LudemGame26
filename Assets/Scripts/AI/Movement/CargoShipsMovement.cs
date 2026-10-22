@@ -8,7 +8,7 @@ namespace AI.Movement
 {
     public class CargoShipsMovement : MonoBehaviour, IEntityMovement
     {
-        
+       
         
         [Header("Movement for Cargo Ships")]
         [Space(10)]
