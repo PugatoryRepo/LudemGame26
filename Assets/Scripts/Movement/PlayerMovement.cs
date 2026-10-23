@@ -29,18 +29,24 @@ namespace Movement
         }
 
         [Space(10)]
-        [Header("Movement for player")]
-        [SerializeField] private Rigidbody2D rB;
-        
+        [Header("Movement info for player")]
         [SerializeField] private PlayerData playerData;
+
+        [Space(10)]
+        [SerializeField] private Camera cam;
         
         private Vector2 currPosition;
         
+        private Rigidbody2D rB;
+        
         private float speed;
-        private float rotSpeed;
+        private float rotAngle;
 
         private Vector2 dir;
-        private Vector3 mousePos;
+        private Vector2 turnDir;
+
+        private float maxDegDel;
+        private float speedRate;
         
         //Initial variables
         void Awake()
@@ -53,7 +59,7 @@ namespace Movement
             else
             {
                 speed = playerData.Speed;
-                rotSpeed = playerData.RotSpeed;
+                rotAngle = playerData.RotSpeed;
             }
             
             //Initial rigidbody and some of its fields.
@@ -67,7 +73,9 @@ namespace Movement
         void Update()
         {
             dir = InputSystem.actions["Move"].ReadValue<Vector2>();
-            mousePos = Mouse.current.position.ReadValue();
+            turnDir= InputSystem.actions["Look"].ReadValue<Vector2>();
+            
+            print(turnDir);
         }
 
 
@@ -77,6 +85,7 @@ namespace Movement
             Playerposition = transform.position;
             
             Move();
+            
             Rotate();
         }
     
@@ -89,8 +98,11 @@ namespace Movement
             {
                 return;
             }
+            speedRate = speed * Time.deltaTime;
             
-            rB.position += (-dir) * (speed * Time.deltaTime);
+            dir *= speedRate;
+            
+            rB.MovePosition(rB.position+(-dir));
         }
         
         
@@ -99,18 +111,27 @@ namespace Movement
         /// </summary>
         public void Rotate()
         {
-            if(mousePos == Vector3.zero)
+            if(turnDir == Vector2.zero)
             {
                 return;
             }
 
-            mousePos *= rotSpeed * Time.fixedDeltaTime;
+            maxDegDel = rotAngle * Time.deltaTime;
+            if (turnDir.x > 0f || turnDir.y > 0f)
+            {
+                transform.Rotate(Vector3.back, maxDegDel);
+            }
             
-            //print(mousePos);
+            if (turnDir.x < 0f || turnDir.y < 0f)
+            {
+                transform.Rotate(Vector3.forward, maxDegDel);
+            }
             
-            transform.up += mousePos.normalized;
-
+           
+          
         }
+
+
 
         /// <summary>
         /// Get method for speed.
@@ -122,6 +143,6 @@ namespace Movement
         /// Get method for rotation speed.
         /// </summary>
         /// <returns>A float representing the speed of rotation.</returns>
-        public float GetRotSpeed() => rotSpeed;
+        public float GetRotSpeed() => rotAngle;
     }
 }

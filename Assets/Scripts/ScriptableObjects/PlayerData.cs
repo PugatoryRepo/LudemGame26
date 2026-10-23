@@ -10,6 +10,7 @@ namespace ScriptableObjects
         public float Speed;
         
         [Space(10)]
+        [Range(0f,100f)]
         public float RotSpeed;
 
         [Space(10)] 

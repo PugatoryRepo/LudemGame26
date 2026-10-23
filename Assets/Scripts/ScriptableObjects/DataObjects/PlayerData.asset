@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3ff26a89c625674d9f6cbf289be37bd, type: 3}
   m_Name: PlayerData
   m_EditorClassIdentifier: Assembly-CSharp::ScriptableObjects.PlayerData
-  Speed: 5
-  RotSpeed: 50
+  Speed: 2
+  RotSpeed: 24.3
   TorpedoSpeed: 2.08
   TorpedoDmg: 25

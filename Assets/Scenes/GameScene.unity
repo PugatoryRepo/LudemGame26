@@ -985,7 +985,7 @@ Rigidbody2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 1920
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
@@ -1002,8 +1002,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3bc607aaad2a1ac43a89cc2ea40d8b0e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Movement.PlayerMovement
-  rB: {fileID: 2074539396}
   playerData: {fileID: 11400000, guid: 746c1c03b8c8d2e49b2520a720ba42ea, type: 2}
+  cam: {fileID: 671372320}
 --- !u!114 &2074539398
 MonoBehaviour:
   m_ObjectHideFlags: 0
