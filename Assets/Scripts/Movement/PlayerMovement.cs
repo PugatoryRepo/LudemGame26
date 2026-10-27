@@ -2,6 +2,7 @@ using UnityEngine;
 using ScriptableObjects;
 using UnityEngine.InputSystem;
 using System;
+using Combat;
 
 
 namespace Movement
@@ -10,8 +11,6 @@ namespace Movement
     [RequireComponent(typeof(BoxCollider2D))]
     public class PlayerMovement : MonoBehaviour, IEntityMovement
     {
-        
-        public static event Action<Vector2, Quaternion> PlayerOnMove;
         
         /// <summary>
         /// Property used when modifying the player's position and calling the event if
@@ -24,7 +23,6 @@ namespace Movement
             private set
             {
                 currPosition = value;
-                PlayerOnMove?.Invoke(currPosition, this.transform.rotation);
             }
         }
 
@@ -36,6 +34,7 @@ namespace Movement
         [SerializeField] private Camera cam;
         
         private Vector2 currPosition;
+        private Quaternion currRotation;
         
         private Rigidbody2D rB;
         
@@ -68,6 +67,20 @@ namespace Movement
             
         }
 
+        void OnEnable()
+        {
+            PlayerFire.OnPlayerFirePos += getPlayerPos;
+            PlayerFire.OnPlayerFireRot  += getPlayerRot;
+        }
+
+        void OnDisable()
+        {
+            PlayerFire.OnPlayerFirePos -= getPlayerPos;
+            PlayerFire.OnPlayerFireRot -= getPlayerRot;
+        }
+
+        private Vector2 getPlayerPos() => currPosition;
+        private Quaternion getPlayerRot() => currRotation;
 
         //Get non-physics related stuff (e.g. player's input).
         void Update()
@@ -75,9 +88,7 @@ namespace Movement
             dir = InputSystem.actions["Move"].ReadValue<Vector2>();
             turnDir= InputSystem.actions["Look"].ReadValue<Vector2>();
             
-            print(turnDir);
         }
-
 
         void FixedUpdate()
         {
@@ -111,6 +122,8 @@ namespace Movement
         /// </summary>
         public void Rotate()
         {
+            currRotation = transform.rotation;
+            
             if(turnDir == Vector2.zero)
             {
                 return;
@@ -127,8 +140,6 @@ namespace Movement
                 transform.Rotate(Vector3.forward, maxDegDel);
             }
             
-           
-          
         }
 
 

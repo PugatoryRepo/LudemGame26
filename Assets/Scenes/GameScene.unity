@@ -301,7 +301,7 @@ TilemapCollider2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 4032
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
@@ -864,7 +864,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 1
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 7482667652216324306, guid: 75f5f34dc1b5347e0b8351032682f224, type: 3}
+  m_Sprite: {fileID: -9095717837082945937, guid: bd3cb4af8406d4436a2ae8c2aafe1f8d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -927,8 +927,8 @@ BoxCollider2D:
   m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.28866667}
-    oldSize: {x: 1, y: 1}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1, y: 2}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -1008,7 +1008,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4769809110292739939, guid: 3cc45480e959cca49bbe6740224efde0, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -1.78
+      value: -6.4
       objectReference: {fileID: 0}
     - target: {fileID: 4769809110292739939, guid: 3cc45480e959cca49bbe6740224efde0, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1085,7 +1085,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7728030447359672479, guid: 4b0f7dd7bfa797f49baff4e0ae2be631, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -1.78
+      value: 4.4
       objectReference: {fileID: 0}
     - target: {fileID: 7728030447359672479, guid: 4b0f7dd7bfa797f49baff4e0ae2be631, type: 3}
       propertyPath: m_LocalPosition.y

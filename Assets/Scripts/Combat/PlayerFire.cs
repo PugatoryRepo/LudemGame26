@@ -10,7 +10,10 @@ namespace Combat
 {
     public class PlayerFire : MonoBehaviour
     {
-
+        public static Func<Vector2> OnPlayerFirePos;
+        
+        public static Func<Quaternion> OnPlayerFireRot;
+        
         public static Action StopFiring;
         
         [SerializeField] private GameObject torpedoObj;
@@ -19,13 +22,9 @@ namespace Combat
 
         private const int MAXTORPEDOS = 4;
 
-        private readonly float currPlayerOffset = 1f;
-
         private Vector2 torpedoPosition;
 
         private Quaternion torpedoRotation;
-
-        private int index;
 
         void Awake()
         {
@@ -44,45 +43,48 @@ namespace Combat
             }
         }
 
-
-        void OnEnable()
-        {
-            PlayerMovement.PlayerOnMove += updatePlayerPosition;
-        }
-
-        void OnDisable()
-        {
-            PlayerMovement.PlayerOnMove -= updatePlayerPosition;
-        }
-
-        private void updatePlayerPosition(Vector2 input, Quaternion inputRotation)
-        {
-            torpedoPosition = input;
-
-            torpedoPosition.x += currPlayerOffset;
-            torpedoRotation = inputRotation;
-        }
-
         void Update()
         {
             if (Keyboard.current.spaceKey.wasPressedThisFrame)
             {
                var torpedo = getTorpedo();
-               fireTorpedo(torpedo);
+               getPlayersPosAndRot();
+
+               if (torpedo)
+               {
+                   fireTorpedo(torpedo);
+               }
             }
+        }
+
+
+        private void getPlayersPosAndRot()
+        {
+            try
+            {
+                torpedoPosition = OnPlayerFirePos.Invoke();
+                torpedoRotation = OnPlayerFireRot.Invoke();
+                
+            }
+            catch (Exception e)
+            {
+                print(e.Message);
+            }
+
         }
 
         private GameObject getTorpedo()
         {
-            if (index >= MAXTORPEDOS)
-            {
-                index = 0;
-            }
-            print(index);
-            var torpedo = torpedoPool[index];
-            index++;
 
-            return torpedo;
+            for (int i = 0; i < torpedoPool.Count; i++)
+            {
+                if (!torpedoPool[i].activeInHierarchy)
+                {
+                    return torpedoPool[i];
+                }
+            }
+
+            return null;
         }
 
 
@@ -90,6 +92,7 @@ namespace Combat
         {
             torpedo.transform.rotation = torpedoRotation;
             torpedo.transform.position = torpedoPosition;
+            print(torpedoPosition+", "+ torpedo.transform.position);
             
             torpedo.SetActive(true);
         }

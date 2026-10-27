@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ScriptableObjects.PlayerData
   Speed: 2
   RotSpeed: 24.3
-  TorpedoSpeed: 2.08
+  TorpedoSpeed: 2.99
   TorpedoDmg: 25

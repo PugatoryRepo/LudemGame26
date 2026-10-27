@@ -1,27 +1,20 @@
-using AI.Health;
-using Movement;
 using UnityEngine;
+using AI.Health;
 using ScriptableObjects;
-using Vector2 = UnityEngine.Vector2;
-using Vector3 = UnityEngine.Vector3;
 
 namespace Combat
 {
-    public class Torpedo : MonoBehaviour
+    public class TorpedoCollider : MonoBehaviour
     {
-        
+            
         [Header("Torpedo's Info")]
         [Space(10)]
         [SerializeField] private PlayerData playerData;
-        
-        [Space(10)]
-        [SerializeField] private LayerMask layerMask;
-
+    
+        //[Space(10)]
+        //[SerializeField] private LayerMask layerMask;
+    
         private float damage;
-
-        private const float MAXTIMER = 3f;
-        private float timer;
-        
 
         void Awake()
         {
@@ -33,16 +26,9 @@ namespace Combat
             {
                 damage = playerData.TorpedoDmg;
             }
-        
         }
-
-        
-        void FixedUpdate()
-        {
-            transform.position += transform.up *( Time.fixedDeltaTime *playerData.TorpedoSpeed);
-        }
-
-        
+    
+    
         void OnCollisionEnter2D(Collision2D other)
         {
             if (other.gameObject.layer == 8 || other.gameObject.layer == 9)
