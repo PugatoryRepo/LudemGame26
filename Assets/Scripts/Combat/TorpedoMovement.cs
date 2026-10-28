@@ -1,3 +1,4 @@
+using System.Numerics;
 using UnityEngine;
 using Vector2 = UnityEngine.Vector2;
 using ScriptableObjects;
@@ -15,9 +16,6 @@ namespace Combat
         [SerializeField] private PlayerData playerData;
         
         private Rigidbody2D rB;
-
-        private const float MAXTIMER = 3f;
-        private float timer;
 
         private float torpedoSpeed;
 
@@ -41,7 +39,7 @@ namespace Combat
             rB.gravityScale = (rB.gravityScale == 0) ? rB.gravityScale : 0f;
         }
 
-        void Start()
+        void OnEnable()
         {
             torpedoPos = transform.position;
         }
@@ -56,8 +54,10 @@ namespace Combat
         {
             
             maxDelDis = Time.fixedDeltaTime * torpedoSpeed;
+
+            var right = (Vector2)transform.right;
             
-            torpedoPos *= maxDelDis;
+            torpedoPos += right * maxDelDis;
             
             rB.MovePosition(torpedoPos);
             

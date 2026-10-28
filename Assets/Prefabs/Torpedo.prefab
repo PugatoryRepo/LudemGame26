@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 5401052482566562834}
   - component: {fileID: 6301755400220618222}
   - component: {fileID: 8164587066348110324}
+  - component: {fileID: 6900404462751959470}
   m_Layer: 10
   m_Name: Torpedo
   m_TagString: Untagged
@@ -186,3 +187,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TorpedoCollider
   playerData: {fileID: 11400000, guid: 746c1c03b8c8d2e49b2520a720ba42ea, type: 2}
+--- !u!114 &6900404462751959470
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1931734787692555421}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1202b13a6a8c4aa4e9cfbc095a3021d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Combat.TorpedoTimer
+  timerSeed: 6.05
