@@ -8,6 +8,7 @@ namespace Combat
     [RequireComponent(typeof(Rigidbody2D))]
     [RequireComponent(typeof(Collider2D))]
     [RequireComponent(typeof(TorpedoCollider))]
+    [RequireComponent(typeof(TorpedoTimer))]
     public class TorpedoMovement : MonoBehaviour
     {
         
