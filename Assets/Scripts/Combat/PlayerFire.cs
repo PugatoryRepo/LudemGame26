@@ -92,7 +92,9 @@ namespace Combat
         {
             torpedo.transform.rotation = torpedoRotation;
             torpedo.transform.position = torpedoPosition;
-            print(torpedoPosition+", "+ torpedo.transform.position);
+            
+            var dot = Vector3.Dot( torpedo.transform.position, Vector3.right);
+            print(dot);
             
             torpedo.SetActive(true);
         }
