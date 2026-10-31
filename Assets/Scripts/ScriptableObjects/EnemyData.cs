@@ -27,12 +27,8 @@ namespace ScriptableObjects
 
         [Space(20)]
         [Header("Mines' info")]
-        [Range(1, 4)]
+        [Range(2, 4)]
         public int MineMaxLimit;
-
-        [Space(10)] 
-        [Range(1, 10)]
-        public float MineXPosOffset;
         
         [Range(100, 200)]
         public float Damage;

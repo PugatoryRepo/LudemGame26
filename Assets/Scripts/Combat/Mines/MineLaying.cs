@@ -2,9 +2,8 @@ using UnityEngine;
 using System.Collections.Generic;
 using ScriptableObjects;
 using AI.Movement;
-using JetBrains.Annotations;
 
-namespace Combat
+namespace Combat.Mines
 {
     public class MineLaying : MonoBehaviour
     {
@@ -16,6 +15,10 @@ namespace Combat
         
         [Space(10)]
         [SerializeField] private GameObject mineObj;
+        
+        
+        [Space(10)]
+        [SerializeField] private float mineXOffset;
         
         private List<GameObject> mineObjPool;
 
@@ -63,8 +66,7 @@ namespace Combat
         private void setPositionAndRot(Vector2 pos, Quaternion rot)
         {
             minePos = pos;
-
-            minePos.x = enemyData.MineXPosOffset;
+            
             
             mineRot = rot;
         }
@@ -102,7 +104,7 @@ namespace Combat
 
         private void layMine(GameObject mine)
         {
-            
+            minePos.x += mineXOffset;
             mine.transform.position = minePos;
             mine.transform.rotation = mineRot;
             

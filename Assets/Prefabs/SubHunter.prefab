@@ -195,8 +195,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b2e4116bb9177945bb8c388bc3444ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Combat.MineLaying
-  enemyData: {fileID: 0}
+  enemyData: {fileID: 11400000, guid: 8c9a188238c910646997ef8aadefcdb6, type: 2}
   mineObj: {fileID: 2250972595751445845, guid: 7ef59d76aaf12ae439328cb9b7cb0714, type: 3}
+  mineXOffset: 2.56
 --- !u!114 &-7247969392984094177
 MonoBehaviour:
   m_ObjectHideFlags: 0

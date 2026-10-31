@@ -2,13 +2,17 @@ using System;
 using UnityEngine;
 using ScriptableObjects;
 using Movement;
+using AI.Movement;
+using Random = System.Random;
 
 namespace AI.Movement
 {
+    [RequireComponent(typeof(Rigidbody2D))]
+    [RequireComponent(typeof(Collider2D))]
     public class SubHunterMovement : MonoBehaviour, IEntityMovement
     {
         public static Action<Vector2, Quaternion> OnSubHunterMove;
-        
+
         
         [Header("Movement for Cargo Ships")]
         [Space(10)]
@@ -26,6 +30,7 @@ namespace AI.Movement
 
         void Awake()
         {
+            
             if (enemyData == null)
             {
                 Debug.LogWarning("enemy data is null.");
@@ -41,16 +46,12 @@ namespace AI.Movement
                 rB = GetComponent<Rigidbody2D>();
                 rB.gravityScale = 0f;
             }
-            
-
-   
         }
 
 
         void Start()
         {
-            rB.position = enemyData.WayPoints[1];
-            
+
         }
 
 
@@ -72,6 +73,14 @@ namespace AI.Movement
         public void Rotate()
         {
             throw  new NotImplementedException();
+        }
+
+
+        private void OnCollisionStay2D(Collision2D other)
+        {
+            print(other.collider.gameObject.layer.ToString());
+            
+            
         }
 
         public float GetSpeed() => speed;

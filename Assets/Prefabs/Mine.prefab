@@ -85,7 +85,7 @@ SpriteRenderer:
   m_SortingOrder: 1
   m_MaskInteraction: 0
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
-  m_Color: {r: 0.06289297, g: 0.008504383, b: 0.008504383, a: 1}
+  m_Color: {r: 1, g: 0.009433806, b: 0.009433806, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -108,6 +108,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Combat.Mines
   enemyData: {fileID: 11400000, guid: 8c9a188238c910646997ef8aadefcdb6, type: 2}
+  timerOffset: 5.2
 --- !u!50 &-4813954190003295593
 Rigidbody2D:
   serializedVersion: 5
