@@ -21,7 +21,7 @@ namespace Combat.Mines
 
         void OnEnable()
         {
-            timer = Time.time + timerOffset;
+            timer = Time.time + timerOffset; // Based on video: https://www.youtube.com/shorts/Cpg3B0gVWB8
         }
 
         void Update()

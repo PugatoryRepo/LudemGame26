@@ -12,6 +12,9 @@ namespace Combat.Mines
         [Space(10)]
         [Tooltip("Used to extract mine's info")]
         [SerializeField] private EnemyData enemyData;
+
+        [Space(10)] [Header("Mine")]
+        [SerializeField] private SubHunterMovement movement;
         
         [Space(10)]
         [SerializeField] private GameObject mineObj;
@@ -42,6 +45,11 @@ namespace Combat.Mines
                     mineObjPool.Add(obj);
                 }
             }
+
+            if (movement == null)
+            {
+                movement = GetComponent<SubHunterMovement>();
+            }
             
         }
         
@@ -54,39 +62,33 @@ namespace Combat.Mines
 
         void OnEnable()
         {
-            SubHunterMovement.OnSubHunterMove += setPositionAndRot;
+            movement.OnSubHunterMove += layMine;
         }
 
         void OnDisable()
         {
-            SubHunterMovement.OnSubHunterMove -= setPositionAndRot;
+            movement.OnSubHunterMove -= layMine;
         }
         
 
-        private void setPositionAndRot(Vector2 pos, Quaternion rot)
+        private void layMine(Vector2 pos, Quaternion rot)
         {
             minePos = pos;
             
-            
             mineRot = rot;
+            
+            var mine = findMine();
+
+            if (mine)
+            {
+                minePos.x += mineXOffset;
+                mine.transform.position = minePos;
+                mine.transform.rotation = mineRot;
+            
+                mine.SetActive(true);
+            }
         }
         
-        void Update()
-        {
-
-            if (Time.time >= nextFireTime)
-            {
-                nextFireTime = Time.time + 5f; // Based on video: https://www.youtube.com/shorts/Cpg3B0gVWB8
-                var mine = findMine();
-
-                if (mine)
-                {
-                    layMine(mine);
-                }
-                
-            }
-
-        }
 
         private GameObject findMine()
         {
@@ -101,15 +103,7 @@ namespace Combat.Mines
 
             return null;
         }
-
-        private void layMine(GameObject mine)
-        {
-            minePos.x += mineXOffset;
-            mine.transform.position = minePos;
-            mine.transform.rotation = mineRot;
-            
-            mine.SetActive(true);
-        }
+        
         
     }
     
