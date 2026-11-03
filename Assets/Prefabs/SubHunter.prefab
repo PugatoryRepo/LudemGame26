@@ -213,6 +213,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::AI.Movement.SubHunterMovement
   enemyData: {fileID: 11400000, guid: 8c9a188238c910646997ef8aadefcdb6, type: 2}
   rB: {fileID: 4727261109291251834}
-  evacPointsLen: 1
-  disTowardsDes: 1
-  nextPosTimer: 1
+  evacPointsLen: 3
+  disTowardsDes: 4
+  nextPosTimer: 13
