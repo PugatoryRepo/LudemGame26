@@ -6,7 +6,6 @@ namespace ManagerScripts.Spawning
     public class PlayerSpawner: MonoBehaviour
     {
         
-        public static event Action<Vector2> OnPlayerSpawn;
         
         [Header("Spawn Point For Player")]
         [SerializeField] private Vector2 playerSpawnPos;
@@ -14,14 +13,42 @@ namespace ManagerScripts.Spawning
         [Space(10)]
         [Header("Player Gameobject")]
         [SerializeField] private GameObject playerPrefab;
-
-        void Awake()
+        
+        
+        void OnEnable()
         {
-            var obj = Instantiate(playerPrefab, playerSpawnPos, Quaternion.identity);
-            obj.SetActive(true);
-            OnPlayerSpawn?.Invoke(playerSpawnPos);
+            GameManager.OnPlayerSpawnPosRequest += getPlayerSpawnPos;
+        }
+
+        void OnDisable()
+        {
+            GameManager.OnPlayerSpawnPosRequest -= getPlayerSpawnPos;
         }
         
+        
+        private Transform getPlayerSpawnPos()
+        {
+            var obj = spawnPlayer();
+
+            return obj.transform;
+        }
+
+
+        private GameObject spawnPlayer()
+        {
+            if (playerPrefab == null)
+            {
+                Debug.LogWarning("PlayerPrefab is null");
+                return null;
+            }
+            
+            var obj = Instantiate(playerPrefab, playerSpawnPos, Quaternion.identity);
+            setPlayerActive(obj);
+
+            return obj;
+        }
+        
+        private void setPlayerActive(GameObject gameObj) => gameObj.SetActive(true);
         
     }
     

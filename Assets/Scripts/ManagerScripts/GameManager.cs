@@ -1,10 +1,15 @@
+
 using System;
 using AI.Health;
 using UnityEngine;
+using ManagerScripts.Spawning;
 
 
 namespace ManagerScripts
 {
+    
+    [RequireComponent(typeof(PlayerSpawner))]
+    [RequireComponent(typeof(SubHunterSpawner))]
     public class GameManager : Manager
     {
         
@@ -16,6 +21,10 @@ namespace ManagerScripts
         }
         
         public static Action OnGameWon;
+
+        public static Func<Transform> OnPlayerSpawnPosRequest;
+        public static Action<Transform> OnPlayerSpawn; // For camera
+        public static Action<Vector2?> OnSpawnEnemies;
         
         public static GameManager Instance { get; private set; }
 
@@ -41,9 +50,11 @@ namespace ManagerScripts
         
         private States currState;
 
-        private int currCargoNum; 
-        
+        private int currCargoNum;
 
+        private delegate void initializer();
+        private initializer init;
+        
         void Awake()
         {
             if (Instance == null)
@@ -56,6 +67,21 @@ namespace ManagerScripts
                 Destroy(this);
             }
 
+            init += checkUIGameOverDoc;
+            init += callingEntitySpawners;
+            
+         
+
+        }
+
+
+        void Start()
+        {
+            init.Invoke();
+        }
+
+        private void checkUIGameOverDoc()
+        {
             if (endGameUIDoc == null)
             {
                 Debug.LogWarning("UI document is null.");
@@ -64,8 +90,23 @@ namespace ManagerScripts
             {
                 endGameUIDoc.SetActive(false);
             }
-
         }
+
+        private void callingEntitySpawners()
+        {
+            var playerTransform=OnPlayerSpawnPosRequest?.Invoke();
+
+            if (playerTransform != null)
+            {
+                OnPlayerSpawn?.Invoke(playerTransform);
+                
+                var playerPos = (Vector2) playerTransform.position;
+                OnSpawnEnemies?.Invoke(playerPos);
+            }
+            print(playerTransform ==null);
+        }
+        
+        
 
         void OnEnable()
         {

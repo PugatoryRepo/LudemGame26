@@ -1,4 +1,4 @@
-using System;
+using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -13,54 +13,84 @@ namespace ManagerScripts.Spawning
         [Min(1)] 
         [SerializeField] private int subHuntersNum;
 
+        [Space(10)]
+        [Min(2f)]
+        [Tooltip("Used if enemy spawned around the player.")]
+        [SerializeField] private float scaler;
+        
+        private List<Vector2> enemySpawnPoints;
+
 
         void OnEnable()
         {
-            PlayerSpawner.OnPlayerSpawn += GenerateSpawnPoints;
+            GameManager.OnSpawnEnemies += Spawning;
         }
 
         void OnDisable()
         {
-            PlayerSpawner.OnPlayerSpawn -= GenerateSpawnPoints;
-        }
-        
-        public override void GenerateSpawnPoints(Vector2 playerSpawnPos)
+            GameManager.OnSpawnEnemies -= Spawning;
+        }  
+
+
+        public override void GenerateSpawnPoints(Vector2? playerSpawnPos)
         {
+            enemySpawnPoints = new List<Vector2>();
             
             for (int i = 0; i < subHuntersNum; i++)
             {
                 Vector2 spawnPoint = new Vector2(Random.Range(-5, 5), Random.Range(-5, 5));
 
-                var offset = PlayerSpawnPos  -spawnPoint;
+                var offset = offSetCal(spawnPoint, playerSpawnPos);
                 
-                if (offset == Vector2.zero)
+                if (offset == Vector2.zero || enemySpawnPoints.Contains(spawnPoint))
                 {
-                    
+                    spawnPoint *= scaler;
                 }
                 
                 enemySpawnPoints.Add(spawnPoint);
             }
+
+            
+        }
+
+        private Vector2 offSetCal(Vector2 enemyPos, Vector2? playerPos)
+        {
+            if (!playerPos.HasValue)
+            {
+                return Vector2.zero;
+            }
+            
+            Vector2 playerVec = playerPos.Value;
+            
+            enemyPos.x = (int) Mathf.Abs(enemyPos.x);
+            enemyPos.y = (int) Mathf.Abs(enemyPos.y);
+            
+            playerVec.x = (int) Mathf.Abs(playerVec.x);
+            playerVec.y = (int) Mathf.Abs(playerVec.y);
+            
+            
+            return enemyPos -  playerVec;
         }
         
-        public override void Spawning()
+        public override void Spawning(Vector2? playerSpawnPos)
         {
             
+            GenerateSpawnPoints(playerSpawnPos);
+            spawnSubHunters();
+        }
+        
+        private void spawnSubHunters()
+        {
             foreach(var point in enemySpawnPoints)
             {
-
-                print(point);
                 var obj = Instantiate(enemyPrefab, point, Quaternion.identity);
                 
                 obj.SetActive(true);
             }
-
+                
         }
         
-        void Start()
-        {
-            Spawning();
-        }
-    
+       
     }
 
 }

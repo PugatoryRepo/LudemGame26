@@ -1,6 +1,5 @@
 using UnityEngine;
-using System.Collections.Generic;
-using Unity.VisualScripting;
+
 
 namespace ManagerScripts.Spawning
 {
@@ -9,14 +8,13 @@ namespace ManagerScripts.Spawning
 
         public GameObject enemyPrefab;
         
-        protected List<Vector2> enemySpawnPoints;
         
         public Vector2 PlayerSpawnPos { get; set; }
         
 
-        public abstract void GenerateSpawnPoints(Vector2 playerSpawnPos);
+        public abstract void GenerateSpawnPoints(Vector2? playerSpawnPos);
             
-        public abstract void Spawning();
+        public abstract void Spawning(Vector2? playerSpawnPos);
 
     }
     

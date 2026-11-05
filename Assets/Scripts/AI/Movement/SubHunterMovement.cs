@@ -17,6 +17,8 @@ namespace AI.Movement
     {
         public Action<Vector2, Quaternion> OnSubHunterMove;
         
+        public const float kEpsilon = 0.00001F;
+        
         [Header("Movement for Cargo Ships")]
         [Space(10)]
         [SerializeField] private EnemyData enemyData;
@@ -50,6 +52,7 @@ namespace AI.Movement
 
         private int vecIndex;
         private Vector2 currPos;
+        private Vector2 prevPos;
         
         void Awake()
         {
@@ -67,10 +70,12 @@ namespace AI.Movement
             if (rB == null)
             {
                 rB = GetComponent<Rigidbody2D>();
-                rB.gravityScale = 0f;
             }
+        }
 
 
+        void OnEnable()
+        {
             initEvacPoints();
         }
 
@@ -96,46 +101,30 @@ namespace AI.Movement
                 vecIndex = 0;
             }
             
-            
             currPos = rB.position;
             var des=Vector2.MoveTowards(currPos, evacPoints[vecIndex], maxDisDel);
-            
-            
-            if (areVecsEqual(des))
+
+            if (areVecsEqual())
             {
-                
-               StartCoroutine(timerToLayMine());
+                print("Done");
                StartCoroutine(timerForNextPos());
             }
             else
             {
                 rB.MovePosition(des);
+                prevPos=currPos;
             }
         }
+        
+        private bool areVecsEqual() => prevPos == currPos;
 
-        private bool areVecsEqual(Vector2 a)
-        {
-
-            Vector2 offset = a - currPos;
-            
-            offset.x = Mathf.Abs(offset.x);
-            offset.y = Mathf.Abs(offset.y);
-            
-            return offset == Vector2.zero;
-        }
-
-
-        private async Awaitable timerToLayMine()
-        {
-            await Awaitable.WaitForSecondsAsync(nextPosTimer/100f);
-            callSubHunterEvent();
-        }
+        
         
         private async Awaitable timerForNextPos()
         {
            await Awaitable.WaitForSecondsAsync(nextPosTimer);
-           
             vecIndex++; 
+            callSubHunterEvent();
         }
         
 
