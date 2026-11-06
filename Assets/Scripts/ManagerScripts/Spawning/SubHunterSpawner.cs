@@ -30,9 +30,21 @@ namespace ManagerScripts.Spawning
         {
             GameManager.OnSpawnEnemies -= Spawning;
         }  
+        
+        public override void Spawning(Vector2? playerSpawnPos)
+        {
+            if (!playerSpawnPos.HasValue)
+            {
+                return;
+            }
+            
+            
+            GenerateSpawnPoints(playerSpawnPos.Value);
+            spawnSubHunters();
+        }
 
 
-        public override void GenerateSpawnPoints(Vector2? playerSpawnPos)
+        public override void GenerateSpawnPoints(Vector2 playerSpawnPos)
         {
             enemySpawnPoints = new List<Vector2>();
             
@@ -52,7 +64,9 @@ namespace ManagerScripts.Spawning
 
             
         }
-
+        
+        
+        
         private Vector2 offSetCal(Vector2 enemyPos, Vector2? playerPos)
         {
             if (!playerPos.HasValue)
@@ -72,12 +86,7 @@ namespace ManagerScripts.Spawning
             return enemyPos -  playerVec;
         }
         
-        public override void Spawning(Vector2? playerSpawnPos)
-        {
-            
-            GenerateSpawnPoints(playerSpawnPos);
-            spawnSubHunters();
-        }
+       
         
         private void spawnSubHunters()
         {

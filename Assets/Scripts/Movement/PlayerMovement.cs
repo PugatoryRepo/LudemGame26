@@ -1,7 +1,7 @@
 using UnityEngine;
 using ScriptableObjects;
 using UnityEngine.InputSystem;
-using System;
+using ManagerScripts;
 using Combat;
 
 
@@ -71,6 +71,8 @@ namespace Movement
         {
             PlayerFire.OnPlayerFirePos += getPlayerPos;
             PlayerFire.OnPlayerFireRot  += getPlayerRot;
+
+            GameManager.OnPlayerSpawnPosRequest += getPlayerPos;
         }
 
         void OnDisable()
@@ -78,7 +80,7 @@ namespace Movement
             PlayerFire.OnPlayerFirePos -= getPlayerPos;
             PlayerFire.OnPlayerFireRot -= getPlayerRot;
         }
-
+        
         private Vector2 getPlayerPos() => currPosition;
         private Quaternion getPlayerRot() => currRotation;
 

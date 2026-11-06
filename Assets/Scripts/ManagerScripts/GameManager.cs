@@ -7,8 +7,6 @@ using ManagerScripts.Spawning;
 
 namespace ManagerScripts
 {
-    
-    [RequireComponent(typeof(PlayerSpawner))]
     [RequireComponent(typeof(SubHunterSpawner))]
     public class GameManager : Manager
     {
@@ -22,8 +20,7 @@ namespace ManagerScripts
         
         public static Action OnGameWon;
 
-        public static Func<Transform> OnPlayerSpawnPosRequest;
-        public static Action<Transform> OnPlayerSpawn; // For camera
+        public static Func<Vector2> OnPlayerSpawnPosRequest;
         public static Action<Vector2?> OnSpawnEnemies;
         
         public static GameManager Instance { get; private set; }
@@ -94,16 +91,13 @@ namespace ManagerScripts
 
         private void callingEntitySpawners()
         {
-            var playerTransform=OnPlayerSpawnPosRequest?.Invoke();
+            var playerPos=OnPlayerSpawnPosRequest?.Invoke();
 
-            if (playerTransform != null)
+            if (playerPos != null)
             {
-                OnPlayerSpawn?.Invoke(playerTransform);
-                
-                var playerPos = (Vector2) playerTransform.position;
                 OnSpawnEnemies?.Invoke(playerPos);
             }
-            print(playerTransform ==null);
+            print(playerPos ==null);
         }
         
         
