@@ -38,7 +38,7 @@ namespace ManagerScripts.Spawning
             
             for (int i = 0; i < subHuntersNum; i++)
             {
-                Vector2 spawnPoint = new Vector2(Random.Range(-5, 5), Random.Range(-5, 5));
+                Vector2 spawnPoint = new Vector2(Random.Range(-25, 25), Random.Range(-25, 25));
 
                 var offset = offSetCal(spawnPoint, playerSpawnPos);
                 

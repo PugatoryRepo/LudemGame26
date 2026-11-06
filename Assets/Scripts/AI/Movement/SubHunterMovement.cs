@@ -104,10 +104,9 @@ namespace AI.Movement
             currPos = rB.position;
             var des=Vector2.MoveTowards(currPos, evacPoints[vecIndex], maxDisDel);
 
-            if (areVecsEqual())
+            if (prevPos == currPos)
             {
-                print("Done");
-               StartCoroutine(timerForNextPos());
+                moveNextPos(des);
             }
             else
             {
@@ -115,13 +114,17 @@ namespace AI.Movement
                 prevPos=currPos;
             }
         }
-        
-        private bool areVecsEqual() => prevPos == currPos;
 
-        
+        private void moveNextPos(Vector2 des)
+        {
+            rB.MovePosition(des);
+            StartCoroutine(timerForNextPos());
+        }
+
         
         private async Awaitable timerForNextPos()
         {
+    
            await Awaitable.WaitForSecondsAsync(nextPosTimer);
             vecIndex++; 
             callSubHunterEvent();

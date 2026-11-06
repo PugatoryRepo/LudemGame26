@@ -966,7 +966,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ManagerScripts.Spawning.SubHunterSpawner
   enemyPrefab: {fileID: 1049847868057640076, guid: 4b0f7dd7bfa797f49baff4e0ae2be631, type: 3}
-  subHuntersNum: 2
+  subHuntersNum: 15
   scaler: 3
 --- !u!1 &853657921
 GameObject:
