@@ -17,13 +17,7 @@ namespace ScriptableObjects
         [Space(20)]
         public float Health;
 
-        [Space(20)]
-        [Header("Positions for enemies")]
-        public Vector2[] EvacPoints;
-        
-        public Vector2[] WayPoints;
-
-        public Vector2[] PatrolPoints;
+     
 
         [Space(20)]
         [Header("Mines' info")]

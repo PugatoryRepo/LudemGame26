@@ -38,13 +38,13 @@ namespace ManagerScripts.Spawning
                 return;
             }
             
-            
-            GenerateSpawnPoints(playerSpawnPos.Value);
+            base.playerSpawnPos = playerSpawnPos.Value;
+            GenerateSpawnPoints();
             spawnSubHunters();
         }
 
 
-        public override void GenerateSpawnPoints(Vector2 playerSpawnPos)
+        public override void GenerateSpawnPoints()
         {
             enemySpawnPoints = new List<Vector2>();
             
@@ -98,8 +98,6 @@ namespace ManagerScripts.Spawning
             }
                 
         }
-        
-       
     }
 
 }

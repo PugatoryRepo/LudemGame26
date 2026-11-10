@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using ScriptableObjects;
 using Random = System.Random;
@@ -8,7 +9,6 @@ namespace AI.Movement
 {
     public class CargoShipsMovement : MonoBehaviour, IEntityMovement
     {
-       
         
         [Header("Movement for Cargo Ships")]
         [Space(10)]
@@ -16,6 +16,9 @@ namespace AI.Movement
 
         [Space(10)] 
         [SerializeField] private Rigidbody2D rB;
+
+
+        public static event Func<Vector2> OnMoveTowardsEvac;
         
         private float speed;
         private float rotSpeed;
@@ -24,16 +27,6 @@ namespace AI.Movement
         private Vector2 evacPoint;
 
         private static Random rand;
-
-
-        private void choosingEvacPoint()
-        {
-            int len = enemyData.EvacPoints.Length;
-            
-            var randNum=rand.Next(0, len-1);
-            
-            evacPoint = enemyData.EvacPoints[randNum];
-        }
         
         void Awake()
         {
@@ -54,13 +47,22 @@ namespace AI.Movement
             }
             
             rand = new Random();
-            choosingEvacPoint();
         }
-
+        private void choosingEvacPoint()
+        {
+           
+        }
+        
+        
 
         void Start()
         {
-            rB.position = enemyData.WayPoints[0];
+            var result = OnMoveTowardsEvac?.Invoke();
+
+            if (result != null)
+            {
+                evacPoint = result.Value;
+            }
             
         }
 
@@ -84,6 +86,8 @@ namespace AI.Movement
         public float GetSpeed() => speed;
         
         public float GetRotSpeed() => rotSpeed;
+        
+        
 
     }
 }

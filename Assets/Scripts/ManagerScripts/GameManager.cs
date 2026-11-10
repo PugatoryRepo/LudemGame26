@@ -1,6 +1,8 @@
 
 using System;
+using System.Collections.Generic;
 using AI.Health;
+using AI.Movement;
 using UnityEngine;
 using ManagerScripts.Spawning;
 
@@ -8,6 +10,8 @@ using ManagerScripts.Spawning;
 namespace ManagerScripts
 {
     [RequireComponent(typeof(SubHunterSpawner))]
+    [RequireComponent(typeof(CargoShipSpawner))]
+    [RequireComponent(typeof(EvacPointLocator))]
     public class GameManager : Manager
     {
         
@@ -36,7 +40,6 @@ namespace ManagerScripts
 
                 if (currCargoNum <= 0)
                 {
-                    print(currCargoNum);
                     setStateToWon();
                 }
                 
@@ -66,9 +69,6 @@ namespace ManagerScripts
 
             init += checkUIGameOverDoc;
             init += callingEntitySpawners;
-            
-         
-
         }
 
 

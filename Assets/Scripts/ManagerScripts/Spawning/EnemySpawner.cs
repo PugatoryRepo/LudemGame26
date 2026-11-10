@@ -7,12 +7,11 @@ namespace ManagerScripts.Spawning
     {
 
         public GameObject enemyPrefab;
-        
-        
-        public Vector2 PlayerSpawnPos { get; set; }
-        
 
-        public abstract void GenerateSpawnPoints(Vector2 playerSpawnPos);
+
+        protected Vector2 playerSpawnPos;
+
+        public abstract void GenerateSpawnPoints();
             
         public abstract void Spawning(Vector2? playerSpawnPos);
 
