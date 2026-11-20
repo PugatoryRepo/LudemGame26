@@ -12,14 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b667de69a3fe4374b9ce4a6bcd231c37, type: 3}
   m_Name: EnemyData
   m_EditorClassIdentifier: Assembly-CSharp::ScriptableObjects.EnemyData
-  Speed: 3
+  CargoShipSpeed: 1
   SubHunterSpeed: 1
   RotSpeed: 5
   Health: 100
-  EvacPoints: []
-  WayPoints:
-  - {x: 1, y: 1}
-  PatrolPoints:
-  - {x: 1, y: 1}
   MineMaxLimit: 2
   Damage: 100

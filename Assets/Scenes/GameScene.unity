@@ -347,7 +347,7 @@ TilemapRenderer:
   m_MaxFrameAge: 16
   m_SortOrder: 0
   m_Mode: 0
-  m_DetectChunkCullingBounds: 0
+  m_DetectChunkCullingBounds: 1
 --- !u!1839735485 &75372382
 Tilemap:
   m_ObjectHideFlags: 0
@@ -462,63 +462,6 @@ TilemapCollider2D:
   m_MaximumTileChangeCount: 1000
   m_ExtrusionFactor: 0
   m_UseDelaunayMesh: 0
---- !u!1001 &311954669
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 5162288268486950793, guid: 148494283ac49874cb91e67466c9b185, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 31.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5162288268486950793, guid: 148494283ac49874cb91e67466c9b185, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -33.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5162288268486950793, guid: 148494283ac49874cb91e67466c9b185, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5162288268486950793, guid: 148494283ac49874cb91e67466c9b185, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5162288268486950793, guid: 148494283ac49874cb91e67466c9b185, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5162288268486950793, guid: 148494283ac49874cb91e67466c9b185, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5162288268486950793, guid: 148494283ac49874cb91e67466c9b185, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5162288268486950793, guid: 148494283ac49874cb91e67466c9b185, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5162288268486950793, guid: 148494283ac49874cb91e67466c9b185, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5162288268486950793, guid: 148494283ac49874cb91e67466c9b185, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8169525205490558620, guid: 148494283ac49874cb91e67466c9b185, type: 3}
-      propertyPath: m_Name
-      value: EvacPoint
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 148494283ac49874cb91e67466c9b185, type: 3}
 --- !u!1 &321058716
 GameObject:
   m_ObjectHideFlags: 0
@@ -981,6 +924,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f666f5a419fc0b247ae252ade8f7c153, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ManagerScripts.GameManager
+  thresholdWinning: 1
   endGameUIDoc: {fileID: 1296374664}
 --- !u!114 &752826328
 MonoBehaviour:
@@ -1011,9 +955,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ManagerScripts.Spawning.CargoShipSpawner
   enemyPrefab: {fileID: 5489329198322717199, guid: 3cc45480e959cca49bbe6740224efde0, type: 3}
   numberOfEnemies: 2
-  xPos: 5.36
-  yPos: 32.7
+  xPos: 0
+  yPos: 0
   offSet: 2
+  tilemap: {fileID: 75372382}
 --- !u!1 &853657921
 GameObject:
   m_ObjectHideFlags: 0
@@ -1345,6 +1290,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2202394776767803204, guid: f2202acde58350a4f9cbf559b87512c9, type: 3}
+      propertyPath: m_IncludeLayers.m_Bits
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6937635402353146072, guid: f2202acde58350a4f9cbf559b87512c9, type: 3}
       propertyPath: m_LocalPosition.x
       value: 1.92
@@ -1517,4 +1466,3 @@ SceneRoots:
   - {fileID: 853657923}
   - {fileID: 1060568561}
   - {fileID: 1173945974}
-  - {fileID: 311954669}

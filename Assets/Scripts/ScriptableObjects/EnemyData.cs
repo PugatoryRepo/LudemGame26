@@ -8,7 +8,7 @@ namespace ScriptableObjects
     {
 
         [Header("Enemies' movement info")]
-        public float Speed;
+        public float CargoShipSpeed;
         [Range(1, 3)]
         public float SubHunterSpeed;
         public float RotSpeed;

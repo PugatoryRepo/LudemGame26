@@ -63,7 +63,7 @@ namespace AI.Movement
             }
             else
             {
-                speed = enemyData.Speed;
+                speed = enemyData.CargoShipSpeed;
                 rotSpeed = enemyData.RotSpeed;
             }
             

@@ -1,4 +1,4 @@
-using System.Numerics;
+using AI.Health;
 using UnityEngine;
 using Vector2 = UnityEngine.Vector2;
 using ScriptableObjects;
@@ -7,7 +7,6 @@ namespace Combat
 {
     [RequireComponent(typeof(Rigidbody2D))]
     [RequireComponent(typeof(Collider2D))]
-    [RequireComponent(typeof(TorpedoCollider))]
     [RequireComponent(typeof(TorpedoTimer))]
     public class TorpedoMovement : MonoBehaviour
     {
@@ -24,6 +23,8 @@ namespace Combat
 
         private float maxDelDis;
 
+        private float dmg;
+
         void Awake()
         {
 
@@ -34,6 +35,7 @@ namespace Combat
             else
             {
                 torpedoSpeed = playerData.TorpedoSpeed;
+                dmg = playerData.TorpedoDmg;
             }
         
             rB ??= GetComponent<Rigidbody2D>();
@@ -63,6 +65,22 @@ namespace Combat
             rB.MovePosition(torpedoPos);
             
         }
+        
+        void OnCollisionEnter2D(Collision2D other)
+        {
+            if (other.gameObject.layer == 8)
+            {
+                other.gameObject.GetComponent<EnemyHealth>().DamageShip(dmg);
+            }
+            else if (other.gameObject.layer == 9)
+            {
+                other.gameObject.GetComponent<CargoShipHealth>().DamageShip(dmg);
+            }
+            
+            
+            gameObject.SetActive(false);
+        }
+        
         
     }
 }

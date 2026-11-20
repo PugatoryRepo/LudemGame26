@@ -13,7 +13,7 @@ namespace ManagerScripts.Spawning
 
         public abstract void GenerateSpawnPoints();
             
-        public abstract void Spawning(Vector2? playerSpawnPos);
+        public abstract void Spawning(Vector2? playerSPoint);
 
     }
     

@@ -31,14 +31,14 @@ namespace ManagerScripts.Spawning
             GameManager.OnSpawnEnemies -= Spawning;
         }  
         
-        public override void Spawning(Vector2? playerSpawnPos)
+        public override void Spawning(Vector2? playerSPoint)
         {
-            if (!playerSpawnPos.HasValue)
+            if (!playerSPoint.HasValue)
             {
                 return;
             }
             
-            base.playerSpawnPos = playerSpawnPos.Value;
+            base.playerSpawnPos = playerSPoint.Value;
             GenerateSpawnPoints();
             spawnSubHunters();
         }

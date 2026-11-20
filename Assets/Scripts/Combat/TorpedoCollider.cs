@@ -31,9 +31,13 @@ namespace Combat
     
         void OnCollisionEnter2D(Collision2D other)
         {
-            if (other.gameObject.layer == 8 || other.gameObject.layer == 9)
+            if (other.gameObject.layer == 8)
             {
                 other.gameObject.GetComponent<EnemyHealth>().DamageShip(damage);
+            }
+            else if (other.gameObject.layer == 9)
+            {
+                other.gameObject.GetComponent<CargoShipHealth>().DamageShip(damage);
             }
             
             

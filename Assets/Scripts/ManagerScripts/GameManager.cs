@@ -11,7 +11,6 @@ namespace ManagerScripts
 {
     [RequireComponent(typeof(SubHunterSpawner))]
     [RequireComponent(typeof(CargoShipSpawner))]
-    [RequireComponent(typeof(EvacPointLocator))]
     public class GameManager : Manager
     {
         
@@ -28,35 +27,25 @@ namespace ManagerScripts
         public static Action<Vector2?> OnSpawnEnemies;
         
         public static GameManager Instance { get; private set; }
+        
+        
+        [SerializeField] private int thresholdWinning;
+        
+        private int numCSInObjective; // CS means Cargo Ships.
+        private int numCargoShipDestroyed;
 
-        [NonSerialized] public int MaxEnemyCargo;
-
-        private int currCargoProperty
-        { 
-            get => currCargoNum;
-            set
-            {
-                currCargoNum=value;
-
-                if (currCargoNum <= 0)
-                {
-                    setStateToWon();
-                }
-                
-            }
-        }
+        
         
         [SerializeField] private GameObject endGameUIDoc;
         
         private States currState;
 
-        private int currCargoNum;
-
-        private delegate void initializer();
-        private initializer init;
+        private int currCargoShips;
         
         void Awake()
         {
+        
+            //Checking Singleton for other references of self.
             if (Instance == null)
             {
                 Instance = this;
@@ -67,16 +56,9 @@ namespace ManagerScripts
                 Destroy(this);
             }
 
-            init += checkUIGameOverDoc;
-            init += callingEntitySpawners;
+            checkUIGameOverDoc();
         }
-
-
-        void Start()
-        {
-            init.Invoke();
-        }
-
+        
         private void checkUIGameOverDoc()
         {
             if (endGameUIDoc == null)
@@ -89,6 +71,12 @@ namespace ManagerScripts
             }
         }
 
+        void Start()
+        {
+            callingEntitySpawners();
+        }
+        
+
         private void callingEntitySpawners()
         {
             var playerPos=OnPlayerSpawnPosRequest?.Invoke();
@@ -99,24 +87,28 @@ namespace ManagerScripts
             }
             print(playerPos ==null);
         }
-        
-        
 
-        void OnEnable()
+        public void CargoShipReachedObj()
         {
-            EnemyHealth.OnCargoShipCount += addCargoShip;
-            EnemyHealth.OnCargoShipDeath += decCargoShip;
+            numCSInObjective++;
+
+            if (numCSInObjective >= thresholdWinning)
+            {
+                print("Game Over");
+                setStateToWon();
+            }
         }
 
-        void OnDisable()
+        public void DecCargoShip()
         {
-            EnemyHealth.OnCargoShipCount -= addCargoShip;
-            EnemyHealth.OnCargoShipDeath -= decCargoShip;
+            numCargoShipDestroyed++;
+
+            if (numCargoShipDestroyed >= thresholdWinning)
+            {
+                SetCurrState(States.Dead);
+            }
+            
         }
-        
-        private void addCargoShip() => currCargoProperty++;
-        
-        private void decCargoShip() => currCargoProperty--;
         
 
         protected override void Statemachine()

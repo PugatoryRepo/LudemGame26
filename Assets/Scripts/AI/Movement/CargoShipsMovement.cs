@@ -1,14 +1,16 @@
 using System;
-using System.Collections.Generic;
+using ManagerScripts;
 using UnityEngine;
 using ScriptableObjects;
-using Random = System.Random;
+using Random = UnityEngine.Random;
 using Movement;
 
 namespace AI.Movement
 {
     public class CargoShipsMovement : MonoBehaviour, IEntityMovement
     {
+        public static Vector2 evacPoint;
+        public static Action OnCargoAlive;
         
         [Header("Movement for Cargo Ships")]
         [Space(10)]
@@ -18,15 +20,11 @@ namespace AI.Movement
         [SerializeField] private Rigidbody2D rB;
 
 
-        public static event Func<Vector2> OnMoveTowardsEvac;
+        public static event Func<float[]> OnGetTilemapSize;
         
         private float speed;
         private float rotSpeed;
         
-
-        private Vector2 evacPoint;
-
-        private static Random rand;
         
         void Awake()
         {
@@ -36,7 +34,7 @@ namespace AI.Movement
             }
             else
             {
-                speed = enemyData.Speed;
+                speed = enemyData.CargoShipSpeed;
                 rotSpeed = enemyData.RotSpeed;
             }
             
@@ -45,23 +43,24 @@ namespace AI.Movement
                 rB = GetComponent<Rigidbody2D>();
                 rB.gravityScale = 0f;
             }
-            
-            rand = new Random();
+
         }
-        private void choosingEvacPoint()
+        
+        
+        private void choosingEvacPoint(float[] tMapSize)
         {
-           
+            evacPoint = new Vector2(tMapSize[0], tMapSize[1]);
         }
         
         
 
         void Start()
         {
-            var result = OnMoveTowardsEvac?.Invoke();
-
+            var result = OnGetTilemapSize?.Invoke();
+            
             if (result != null)
             {
-                evacPoint = result.Value;
+                choosingEvacPoint(result);
             }
             
         }
@@ -74,9 +73,14 @@ namespace AI.Movement
 
         public void Move()
         {
-            var des=Vector2.MoveTowards(rB.position, evacPoint, 
+            var des = Vector2.MoveTowards(rB.position, evacPoint,
                 speed * Time.deltaTime);
             rB.MovePosition(des);
+
+            if (rB.position.x >= evacPoint.x && rB.position.y >= evacPoint.y)
+            {
+                ManagerScripts.GameManager.Instance.CargoShipReachedObj();
+            }
         }
 
         public void Rotate()

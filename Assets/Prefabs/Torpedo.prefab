@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 2068555861481012867}
   - component: {fileID: 5401052482566562834}
   - component: {fileID: 6301755400220618222}
-  - component: {fileID: 8164587066348110324}
   - component: {fileID: 6900404462751959470}
   m_Layer: 10
   m_Name: Torpedo
@@ -129,10 +128,10 @@ Rigidbody2D:
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 768
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 7360
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
@@ -174,19 +173,6 @@ CapsuleCollider2D:
   m_Offset: {x: 0, y: 0}
   m_Size: {x: 1, y: 2}
   m_Direction: 0
---- !u!114 &8164587066348110324
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1931734787692555421}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a059b62dc0b29c0428b46ff792adedc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::TorpedoCollider
-  playerData: {fileID: 11400000, guid: 746c1c03b8c8d2e49b2520a720ba42ea, type: 2}
 --- !u!114 &6900404462751959470
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -1,7 +1,6 @@
-using System;
 using UnityEngine;
-using ManagerScripts;
 using System.Collections.Generic;
+using UnityEngine.Tilemaps;
 using Random = UnityEngine.Random;
 
 namespace ManagerScripts.Spawning
@@ -19,30 +18,57 @@ namespace ManagerScripts.Spawning
         
         [Tooltip("For correcting spawn points")]
         [SerializeField] private float offSet;
+        
+        
+        [Space(20)]
+        [SerializeField] private Tilemap tilemap;
 
         [Space(10)]
         private List<Vector2> spawnPoints;
+
+        private float xBounds;
+        private float yBounds;
+
+      
+        void Awake()
+        {
+            if (!tilemap)
+            {
+                Debug.LogWarning("No tilemap found");
+            }
+            else
+            {
+                xBounds = tilemap.GetComponent<TilemapRenderer>().chunkCullingBounds.x;
+                yBounds = tilemap.GetComponent<TilemapRenderer>().chunkCullingBounds.y;
+            }
+            spawnPoints = new List<Vector2>();
+        }
+        
         
         void OnEnable()
         {
             GameManager.OnSpawnEnemies += Spawning;
+            
+            AI.Movement.CargoShipsMovement.OnGetTilemapSize += getTileMapSize;
         }
 
         void OnDisable()
         {
             GameManager.OnSpawnEnemies -= Spawning;
+            
+            AI.Movement.CargoShipsMovement.OnGetTilemapSize -= getTileMapSize;
         }
         
 
 
-        public override void Spawning(Vector2? playerSpawnPos)
+        public override void Spawning(Vector2? playerSPoint)
         {
-            if (!playerSpawnPos.HasValue)
+            if (!playerSPoint.HasValue)
             {
                 return;
             }
             
-            base.playerSpawnPos = playerSpawnPos.Value;
+            playerSpawnPos = playerSPoint.Value;
             
             GenerateSpawnPoints();
             spawnCargoShips();
@@ -50,37 +76,48 @@ namespace ManagerScripts.Spawning
 
         public override void GenerateSpawnPoints()
         {   
-            spawnPoints = new List<Vector2>();
-
-
             for (int i = 0; i < numberOfEnemies; i++)
             {
-                Vector2 vec = new Vector2();
-                vec.x = Random.Range(-xPos, xPos);
-                vec.y = Random.Range(-yPos, yPos);
-
-                var vecEst = vec;
-                vecEst.x = (int) vecEst.x;
-                vecEst.y = (int) vecEst.y;
+                Vector2 vec;
+                vec.x = Random.Range(-xBounds, 0f);
+                vec.y = Random.Range(-yBounds, 0f);
                 
-                
-                if (vec == Vector2.zero || vecEst == playerSpawnPos)
+                if (vec.x < Vector2.one.x && vec.y < Vector2.one.y)
                 {
-                    vec += Vector2.one;
-                    vec *= offSet;
+                    vec += (offSet * Vector2.one);
                 }
                 
-                if (!spawnPoints.Contains(vec))
+                float mag = (playerSpawnPos - vec).magnitude;
+                                
+                if (mag >= 1f)
                 {
-                    spawnPoints.Add(vec);
+                    vec += (offSet * Vector2.one);
                 }
-                else
-                {
-                    vec *= offSet;
-                    spawnPoints.Add(vec);
-                }
+                
+                addingSpawnPoints(vec);
             }
             
+        }
+
+
+        private void addingSpawnPoints(Vector2 vec)
+        {
+            if (!spawnPoints.Contains(vec))
+            {
+                spawnPoints.Add(vec);
+            }
+            else
+            {
+                vec *= offSet;
+                spawnPoints.Add(vec);
+            }
+        }
+
+        public int GetNumberOfEnemies() => numberOfEnemies;
+
+        private float[] getTileMapSize()
+        {
+            return new[] {xBounds, yBounds };
         }
 
         private void spawnCargoShips()
