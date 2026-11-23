@@ -29,9 +29,6 @@ namespace Movement
         [Space(10)]
         [Header("Movement info for player")]
         [SerializeField] private PlayerData playerData;
-
-        [Space(10)]
-        [SerializeField] private Camera cam;
         
         private Vector2 currPosition;
         private Quaternion currRotation;
@@ -89,7 +86,6 @@ namespace Movement
         {
             dir = InputSystem.actions["Move"].ReadValue<Vector2>();
             turnDir= InputSystem.actions["Look"].ReadValue<Vector2>();
-            
         }
 
         void FixedUpdate()

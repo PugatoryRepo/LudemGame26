@@ -1338,6 +1338,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlayerProto
       objectReference: {fileID: 0}
+    - target: {fileID: 8629387679105298503, guid: f2202acde58350a4f9cbf559b87512c9, type: 3}
+      propertyPath: cam
+      value: 
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
