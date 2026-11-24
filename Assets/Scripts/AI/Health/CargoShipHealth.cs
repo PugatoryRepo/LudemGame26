@@ -11,7 +11,7 @@ namespace AI.Health
             if (!this.gameObject.activeInHierarchy)
             {
                 print("Cargo Ship Health Disabled");
-                ManagerScripts.GameManager.Instance.DecCargoShip();
+                ManagerScripts.GameManager.Instance.LostCargoShip();
             }
         }
     }

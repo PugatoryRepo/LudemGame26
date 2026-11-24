@@ -32,6 +32,8 @@ namespace Combat.Mines
         private Vector2 minePos;
         private Quaternion mineRot;
 
+        private readonly float timeAdd = 5f;
+
         void Awake()
         {
             mineObjPool = new List<GameObject>();
@@ -56,7 +58,7 @@ namespace Combat.Mines
         
         void Start()
         {
-            nextFireTime = Time.time+5f;
+            nextFireTime = Time.time+timeAdd;
         }
         
 

@@ -1,19 +1,20 @@
 
 using System;
-using System.Collections.Generic;
-using AI.Health;
-using AI.Movement;
 using UnityEngine;
 using ManagerScripts.Spawning;
 
 
 namespace ManagerScripts
 {
+    /// <summary>
+    /// Manages the game's state.
+    /// </summary>
     [RequireComponent(typeof(SubHunterSpawner))]
     [RequireComponent(typeof(CargoShipSpawner))]
     public class GameManager : Manager
     {
         
+        //States:
         public enum States
         {
             Alive,
@@ -23,6 +24,7 @@ namespace ManagerScripts
         
         public static Action OnGameWon;
 
+        //Used to set game up. 
         public static Func<Vector2> OnPlayerSpawnPosRequest;
         public static Action<Vector2?> OnSpawnEnemies;
         
@@ -30,18 +32,17 @@ namespace ManagerScripts
         
         
         [SerializeField] private int thresholdWinning;
+        [SerializeField] private GameObject endGameUIDoc;
         
         private int numCSInObjective; // CS means Cargo Ships.
         private int numCargoShipDestroyed;
-
         
-        
-        [SerializeField] private GameObject endGameUIDoc;
         
         private States currState;
 
         private int currCargoShips;
         
+        //Used as initializer.
         void Awake()
         {
         
@@ -59,6 +60,9 @@ namespace ManagerScripts
             checkUIGameOverDoc();
         }
         
+        /// <summary>
+        /// Checks the UI Document that shows the game is over.
+        /// </summary>
         private void checkUIGameOverDoc()
         {
             if (endGameUIDoc == null)
@@ -71,12 +75,17 @@ namespace ManagerScripts
             }
         }
 
+        /// <summary>
+        /// Calls entity spawners (especially for enemy ships).
+        /// </summary>
         void Start()
         {
             callingEntitySpawners();
         }
         
-
+        /// <summary>
+        /// Gets player position to get the enemy spawners.
+        /// </summary>
         private void callingEntitySpawners()
         {
             var playerPos=OnPlayerSpawnPosRequest?.Invoke();
@@ -85,9 +94,13 @@ namespace ManagerScripts
             {
                 OnSpawnEnemies?.Invoke(playerPos);
             }
-            print(playerPos ==null);
+
         }
 
+        /// <summary>
+        /// Checks if the cargo ships arrived to their destination in order to
+        /// determine win condition.
+        /// </summary>
         public void CargoShipReachedObj()
         {
             numCSInObjective++;
@@ -95,58 +108,72 @@ namespace ManagerScripts
             if (numCSInObjective >= thresholdWinning)
             {
                 print("Game Over");
-                setStateToWon();
+                SetCurrState(States.Dead);
             }
         }
 
-        public void DecCargoShip()
+        /// <summary>
+        /// Checks if player won via shooting down all cargo ships.
+        /// </summary>
+        public void LostCargoShip()
         {
             numCargoShipDestroyed++;
 
             if (numCargoShipDestroyed >= thresholdWinning)
-            {
-                SetCurrState(States.Dead);
+            { 
+                setStateToWon();
             }
             
         }
         
-
-        protected override void Statemachine()
+        /// <summary>
+        /// Game's state machine.
+        /// </summary>
+        protected override void stateMachine()
         {
             switch (currState)
             {
                 case States.Dead:
                     print("Game Over");
-                    
                     endGameUIDoc.SetActive(true);
-                    
                     break;
+                
                case States.WonGame:
                     print("Game Won");
-                    
-                   endGameUIDoc.SetActive(true);
-                    
+                    endGameUIDoc.SetActive(true);
                     OnGameWon?.Invoke();
                     
                    break;
-                
             }
         }
 
 
+        /// <summary>
+        /// Getter method for current state of game.
+        /// </summary>
+        /// <returns>An enum of type States.</returns>
         public States GetCurrState() => currState;
 
+        /// <summary>
+        /// Sets the current state which calls method <c>stateMachine<\c>. Used for other methods
+        /// to call for things such as if player is pausing.
+        /// </summary>
+        /// <param name="state"></param>
+        /// <remarks>Used for other methods to call for things such as if player is pausing.</remarks>
         public void SetCurrState(States state)
         {
             currState = state;
-            Statemachine();
+            stateMachine();
         }
 
-
+        /// <summary>
+        /// Sets the current state of game and calls method <c>stateMachine<\c>.
+        /// </summary>
+        /// <remarks> Used only within this class as it only knows when the player wins or loses.</remarks>
         private void setStateToWon()
         {
             currState=States.WonGame;
-            Statemachine();
+            stateMachine();
         }
     }
 
