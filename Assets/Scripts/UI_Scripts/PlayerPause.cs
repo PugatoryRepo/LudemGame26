@@ -7,7 +7,9 @@ namespace UI_Scripts
 {
     
     
-    
+    /// <summary>
+    /// Calls pause menu when player pauses game.
+    /// </summary>
     public class PlayerPause: MonoBehaviour
     {
         
@@ -25,6 +27,10 @@ namespace UI_Scripts
 
         } 
         
+        /// <summary>
+        /// Calls pause menu.
+        /// </summary>
+        /// <param name="e"></param>
         private void pauseGame(InputAction.CallbackContext e) => OnPause?.Invoke();
     
     }
