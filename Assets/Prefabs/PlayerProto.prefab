@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 2202394776767803204}
   - component: {fileID: 1054639254809836363}
   - component: {fileID: 1747778167457306424}
+  - component: {fileID: 7625270665654807686}
   m_Layer: 7
   m_Name: PlayerProto
   m_TagString: Untagged
@@ -109,7 +110,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Movement.PlayerMovement
   playerData: {fileID: 11400000, guid: 746c1c03b8c8d2e49b2520a720ba42ea, type: 2}
-  cam: {fileID: 0}
 --- !u!50 &2202394776767803204
 Rigidbody2D:
   serializedVersion: 5
@@ -196,3 +196,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Combat.PlayerFire
   torpedoObj: {fileID: 1931734787692555421, guid: 8a274fd3a330d234fa50685d9267d55a, type: 3}
+--- !u!114 &7625270665654807686
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6981276790256669617}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce36a7ad070d20146bbf23c0a3f246c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UI_Scripts.PlayerPause

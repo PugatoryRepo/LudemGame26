@@ -8,6 +8,7 @@
     visibility: visible;
     overflow: visible;
     translate: 0 121px;
+    padding-bottom: 197px;
 }
 
 .title {
@@ -18,5 +19,3 @@
 
 .Quit {
 }
-
-

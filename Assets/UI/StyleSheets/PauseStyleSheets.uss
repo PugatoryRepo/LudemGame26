@@ -1,0 +1,17 @@
+:root {
+}
+
+.Continue {
+    justify-content: flex-start;
+    align-self: auto;
+}
+
+.Restart {
+}
+
+.Quit {
+}
+
+.VisualElement {
+    margin-top: 29px;
+}

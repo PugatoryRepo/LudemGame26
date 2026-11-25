@@ -7,6 +7,10 @@ using Button = UnityEngine.UIElements.Button;
 
 namespace UI_Scripts
 {
+    /// <summary>
+    /// Makes the Game-Over screen functional via initializing buttons to respective
+    /// actions (e.g. quit button quits game).
+    /// </summary>
     public class GameOver : MonoBehaviour, IMenus
     {
 
@@ -42,7 +46,12 @@ namespace UI_Scripts
             ManagerScripts.GameManager.OnGameWon -= onPlayerWon;
         }
 
-        private void UIInit(PanelRenderer sender, VisualElement element)
+        /// <summary>
+        /// Used to initialized game over's UI elements.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="element"></param>
+        public void UIInit(PanelRenderer sender, VisualElement element)
         {
             retryButton = element.Query<Button>("RetryButton");
             quitButton = element.Query<Button>("QuitButton");
@@ -57,15 +66,28 @@ namespace UI_Scripts
             quitButton.RegisterCallback<ClickEvent>(Quit);
         }
 
+        /// <summary>
+        /// Used only to make the title of game-over menu changed and
+        /// call method that initialized UI elements. 
+        /// </summary>
+        /// <remarks> Called only when the player won game.</remarks>
         private void onPlayerWon()
         {
             playerWon = true;
             panelRenderer.RegisterUIReloadCallback(UIInit);
         }
         
+        /// <summary>
+        /// Quits game's level and return to main menu.
+        /// </summary>
+        /// <param name="e"></param>
         public void Quit(ClickEvent e) => Application.Quit(); 
         
 
+        /// <summary>
+        /// Restarts game after player completes game.
+        /// </summary>
+        /// <param name="e"></param>
         public void Continue(ClickEvent e) => SceneManager.LoadScene("GameScene");
     }
     
