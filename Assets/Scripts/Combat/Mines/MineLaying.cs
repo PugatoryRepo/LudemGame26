@@ -5,6 +5,10 @@ using AI.Movement;
 
 namespace Combat.Mines
 {
+    
+    /// <summary>
+    /// Serves for the subhunters to lay mines.
+    /// </summary>
     public class MineLaying : MonoBehaviour
     {
 
@@ -55,10 +59,9 @@ namespace Combat.Mines
             
         }
         
-        
         void Start()
         {
-            nextFireTime = Time.time+timeAdd;
+            nextFireTime = Time.time+timeAdd; //I don't remember what this is used for. 
         }
         
 
@@ -73,6 +76,11 @@ namespace Combat.Mines
         }
         
 
+        /// <summary>
+        /// Based on subhunter's position and rotation, it lays a mine.
+        /// </summary>
+        /// <param name="pos"></param>
+        /// <param name="rot"></param>
         private void layMine(Vector2 pos, Quaternion rot)
         {
             minePos = pos;
@@ -92,6 +100,11 @@ namespace Combat.Mines
         }
         
 
+        /// <summary>
+        /// Finds a mine that isn't unactive and gets it for it to lay mine.
+        /// </summary>
+        /// <returns>A GameObject which is the mine that subhunter uses.
+        /// If it can't find one, it returns null.</returns>
         private GameObject findMine()
         {
 

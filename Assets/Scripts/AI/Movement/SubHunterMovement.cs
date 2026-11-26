@@ -10,6 +10,10 @@ using Combat.Mines;
 
 namespace AI.Movement
 {
+    
+    /// <summary>
+    /// Moves the subhunter.
+    /// </summary>
     [RequireComponent(typeof(Rigidbody2D))]
     [RequireComponent(typeof(Collider2D))]
     [RequireComponent(typeof(MineLaying))]
@@ -67,10 +71,7 @@ namespace AI.Movement
                 rotSpeed = enemyData.RotSpeed;
             }
             
-            if (rB == null)
-            {
-                rB = GetComponent<Rigidbody2D>();
-            }
+            rB ??= GetComponent<Rigidbody2D>();
         }
 
 
@@ -79,6 +80,10 @@ namespace AI.Movement
             initEvacPoints();
         }
 
+        /// <summary>
+        /// Initializes both a new position to go towards and generates
+        /// new coordinates for enemy subhunters to go towards.
+        /// </summary>
         private void initEvacPoints()
         {
             evacPoints = new Vector2[evacPointsLen];
@@ -91,6 +96,9 @@ namespace AI.Movement
         }
         
 
+        /// <summary>
+        /// Moves subhunters towards another coordinate.
+        /// </summary>
         public void Move()
         {
             maxDisDel = enemyData.SubHunterSpeed * Time.fixedDeltaTime;
@@ -104,13 +112,14 @@ namespace AI.Movement
             currPos = rB.position;
             var des=Vector2.MoveTowards(currPos, evacPoints[vecIndex], maxDisDel);
 
+            rB.MovePosition(des);
+            
             if (prevPos == currPos)
             {
-                moveNextPos(des);
+                StartCoroutine(timerForNextPos());
             }
             else
             {
-                rB.MovePosition(des);
                 prevPos=currPos;
             }
         }
@@ -121,16 +130,22 @@ namespace AI.Movement
             StartCoroutine(timerForNextPos());
         }
 
-        
+        /// <summary>
+        /// After moving into destination, it waits, and then calls event to
+        /// notify all subscribers to lay mine and select next position to go towards.
+        /// </summary>
         private async Awaitable timerForNextPos()
         {
     
            await Awaitable.WaitForSecondsAsync(nextPosTimer);
-            vecIndex++; 
-            callSubHunterEvent();
+           vecIndex++; 
+           callSubHunterEvent();
         }
         
 
+        /// <summary>
+        /// Generates new coordinates for subhunter to go towards.
+        /// </summary>
         private void generateCoords()
         {
             Vector2 vec;
@@ -170,23 +185,31 @@ namespace AI.Movement
             }
         }
         
-        
+        /// <summary>
+        /// Calls an event, used to lay mines.
+        /// </summary>
         private void callSubHunterEvent () => OnSubHunterMove?.Invoke(transform.position, transform.rotation);
-        
+
+        /// <summary>
+        /// Rotation of the subhunter.
+        /// </summary>
+        /// <exception cref="NotImplementedException"></exception>
         public void Rotate()
         {
             throw  new NotImplementedException();
         }
+        
 
-
-        private void OnCollisionStay2D(Collision2D other)
-        {
-            print(other.collider.gameObject.layer.ToString());
-            
-            
-        }
-
+        /// <summary>
+        /// Getter method of the subhunter ship's positional speed.
+        /// </summary>
+        /// <returns>A float as the speed of the subhunter.</returns>
         public float GetSpeed() => speed;
+        
+        /// <summary>
+        /// Getter method of the subhunter ship's rotational speed.
+        /// </summary>
+        /// <returns>A float as the rotational speed of the subhunter.</returns>
         public float GetRotSpeed() => rotSpeed;
     }
 

@@ -7,6 +7,9 @@ using Movement;
 
 namespace AI.Movement
 {
+    /// <summary>
+    /// Determines the movement of the cargo ship.
+    /// </summary>
     public class CargoShipsMovement : MonoBehaviour, IEntityMovement
     {
         public static Vector2 evacPoint;
@@ -25,7 +28,7 @@ namespace AI.Movement
         private float speed;
         private float rotSpeed;
         
-        
+        //Initializes data for script.
         void Awake()
         {
             if (enemyData == null)
@@ -38,29 +41,24 @@ namespace AI.Movement
                 rotSpeed = enemyData.RotSpeed;
             }
             
-            if (rB == null)
+            rB ??= GetComponent<Rigidbody2D>();
+            
+            if (rB.gravityScale != 0f)
             {
-                rB = GetComponent<Rigidbody2D>();
                 rB.gravityScale = 0f;
             }
 
         }
         
-        
-        private void choosingEvacPoint(float[] tMapSize)
-        {
-            evacPoint = new Vector2(tMapSize[0], tMapSize[1]);
-        }
-        
-        
 
+        // Gets the data of the tile map's size.
         void Start()
         {
             var result = OnGetTilemapSize?.Invoke();
             
             if (result != null)
             {
-                choosingEvacPoint(result);
+                evacPoint = new Vector2(result[0], result[1]);
             }
             
         }
@@ -71,6 +69,9 @@ namespace AI.Movement
             Move();
         }
 
+        /// <summary>
+        /// Moves the cargo ships towards the assigned destination.
+        /// </summary>
         public void Move()
         {
             var des = Vector2.MoveTowards(rB.position, evacPoint,
@@ -83,12 +84,23 @@ namespace AI.Movement
             }
         }
 
+        /// <summary>
+        /// Cargo ship's rotation.
+        /// </summary>
         public void Rotate()
         {
         }
 
+        /// <summary>
+        /// Getter method of the cargo ship's positional speed.
+        /// </summary>
+        /// <returns>A float as the speed of cargo ship.</returns>
         public float GetSpeed() => speed;
         
+        /// <summary>
+        /// Getter method of the cargo ship's rotational speed.
+        /// </summary>
+        /// <returns>A float as the rotational speed of cargo ship.</returns>
         public float GetRotSpeed() => rotSpeed;
         
         
